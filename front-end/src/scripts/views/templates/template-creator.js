@@ -13,6 +13,41 @@ const createRoomNameInputForm = () => `
   </div>
 `;
 
+const createRoomDetailTemplate = (date) => `
+  <form action="">
+    <div id="date">
+      <span>${date}</span>
+    </div>
+    <div id="description">
+      <span>Start from</span>
+      <span>-</span>
+      <span>Finish at</span>
+    </div>
+    <div class="time-inputs">
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+    </div>
+  </form>
+`;
+
 const createMovieDetailTemplate = (movie) => `
   <h2 class="movie__title">${movie.title}</h2>
   <img class="movie__poster" src="${CONFIG.BASE_IMAGE_URL + movie.poster_path}" alt="${movie.title}" />
@@ -61,6 +96,7 @@ const createLikedButtonTemplate = () => `
 export {
   createRoomNameInputForm,
   createInputForm,
+  createRoomDetailTemplate,
   createMovieItemTemplate,
   createMovieDetailTemplate,
   createLikeButtonTemplate,
