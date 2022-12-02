@@ -91,6 +91,119 @@ main {
   font-weight: normal;
 }
 
+/* main result */
+.head-room{
+  display: flex;
+  justify-content: space-between;
+  margin-left: 15px;
+  margin-top: 20px;
+  margin-right: 15px;
+}
+
+.head-room h1{
+  padding-bottom: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 3.1px;
+  border-bottom-color: #2B62E0;
+  width: 110%
+}
+
+.room-info{
+  display: flex;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.room-info img{
+  width: 70px;
+  margin-right: 10px;
+}
+
+
+.schedules{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.schedule {
+  margin-right: 20px;
+}
+
+.schedule h5{
+  text-align: center;
+  background-color: #2B62E0;
+  border-radius: 10px;
+  color: white;
+  padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.hour-title{
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.hour input{
+  padding: 8px;
+  border-radius: 10px;
+  border-width: 1px;
+  margin-top: 5px;
+  margin-right: 5px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.20) 0px 5px 15px;
+}
+
+.add-hour{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.add-hour button{
+  background-color: #2B62E0;
+  border: none;
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+  width: 60%;
+  
+}
+
+.add-hour button:hover{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.save-button{
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.save-button .button-voting {
+  padding: 15px;
+  background-color: #10b42e;
+  border: none;
+  color: white;
+  border-radius: 10px;
+}
+
+.save-button .button-logout {
+  padding: 15px;
+  background-color: rgb(206, 43, 43);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  margin-right: 40px;
+}
+
+.save-button button:hover{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
 /*
   Movies
 */
