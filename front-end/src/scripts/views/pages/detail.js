@@ -1,5 +1,6 @@
 import UrlParser from '../../routes/url-parser';
 import FavoriteMovieIdb from '../../data/favorite-movie-idb';
+import API_ENDPOINT from '../../globals/api-endpoint';
 import {
   createRoomDetailTemplate,
 } from '../templates/template-creator';
@@ -51,19 +52,63 @@ const Detail = {
       inputFormContainer.innerHTML += createRoomDetailTemplate(date);
     });
 
+    const postDataSchedule = async (roomId, nama, jamMulai, jamSelesai) => {
+      const schedule = {
+        roomId,
+        nama,
+        jamMulai,
+        jamSelesai,
+      };
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(schedule),
+      };
+
+      const response = await fetch(`${API_ENDPOINT.SCHEDULE}`, options);
+      const responseJson = await response.json();
+      console.log(responseJson);
+    };
+
     const timeStart = [];
     const timeFinish = [];
     const submitButton = document.getElementById('submit-button');
 
     const insertSchedule = (event) => {
-      const timeStartValue = document.querySelectorAll('#start');
-      const timeFinishValue = document.querySelectorAll('#finish');
-      timeStartValue.forEach((start) => {
-        timeStart.push(start.value);
+      room.hari_dan_tanggal.forEach((date) => {
+        const timeStartValue = document.querySelectorAll(`#startTimeOnDate${date}`);
+        const timeFinishValue = document.querySelectorAll(`#finishTimeOnDate${date}`);
+        const timeStartOnEachDate = {
+          timeStart: [],
+        };
+        const timeFinishOnEachDate = {
+          timeFinish: [],
+        };
+
+        timeStartOnEachDate.date = date;
+        timeFinishOnEachDate.date = date;
+
+        timeStartValue.forEach((start) => {
+          timeStartOnEachDate.timeStart.push(start.value);
+        });
+        timeFinishValue.forEach((finish) => {
+          timeFinishOnEachDate.timeFinish.push(finish.value);
+        });
+
+        timeStart.push(timeStartOnEachDate);
+        timeFinish.push(timeFinishOnEachDate);
       });
-      timeFinishValue.forEach((finish) => {
-        timeFinish.push(finish.value);
-      });
+
+      postDataSchedule(
+        room.id_room,
+        room.nama_pengguna,
+        timeStart,
+        timeFinish,
+      );
+
       console.log(timeStart);
       console.log(timeFinish);
       event.preventDefault();

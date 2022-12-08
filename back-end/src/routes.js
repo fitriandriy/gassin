@@ -1,4 +1,5 @@
 const {
+  getUserHandler,
   addBookHandler,
   addUserByIdHandler,
   getAllBooksHandler,
@@ -6,6 +7,7 @@ const {
   editBookByIdHandler,
   deleteBookByIdHandler,
   addRoomHandler,
+  addScheduleByIdHandler,
   getRoomHandler,
 } = require('./handler');
 
@@ -24,6 +26,16 @@ const routes = [
     method: 'POST',
     path: '/user',
     handler: addUserByIdHandler,
+  },
+  {
+    method: 'GET',
+    path: '/user',
+    handler: getUserHandler,
+  },
+  {
+    method: 'POST',
+    path: '/user/schedule',
+    handler: addScheduleByIdHandler,
   },
   {
     method: 'GET',

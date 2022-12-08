@@ -4,7 +4,6 @@
 // import TheMovieDbSource from '../../data/themoviedb-source';
 import FavoriteMovieIdb from '../../data/favorite-movie-idb';
 import API_ENDPOINT from '../../globals/api-endpoint';
-import Detail from './detail';
 // import { createMovieItemTemplate } from '../templates/template-creator';
 // import { async } from 'regenerator-runtime';
 
@@ -58,10 +57,12 @@ const NowPlaying = {
       console.log(`Ini room: ${typeof (responseJson)}`);
       const pilihanHari = [];
       const { room, pilihan_hari } = responseJson.data;
+      const roomId = [];
 
       room.forEach((roomItem) => {
         if (roomItem.id_room == joinCode) {
           console.log(`ID ROOM: ${roomItem.id_room}`);
+          roomId.push(roomItem.id_room);
 
           pilihan_hari.forEach((day) => {
             if (day.id_room == joinCode) {
@@ -70,16 +71,16 @@ const NowPlaying = {
           });
 
           postDataUser(
-            joinCode,
+            roomId[0],
             username,
             roomItem.nama_room,
             pilihanHari,
           );
-          console.log(`GATAU: ${joinCode}`);
+          console.log(`GATAU: ${roomId[0]}`);
         }
       });
 
-      return Detail;
+      window.location.assign('http://localhost:9000/#/like');
     };
 
     joinButton.addEventListener('click', insertBook);

@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-plusplus */
 /* eslint-disable camelcase */
 const { nanoid } = require('nanoid');
 const mysql = require('mysql');
@@ -10,6 +12,31 @@ const con = mysql.createConnection({
   database: 'gassin',
   multipleStatements: true,
 });
+
+const getAllUser = () => new Promise((resolve, reject) => {
+  const selectPenggunaByIdRoom = 'SELECT * FROM pengguna';
+  con.query(selectPenggunaByIdRoom, [], (err, results) => {
+    if (err) {
+      return reject(err);
+    }
+    return resolve(results);
+  });
+});
+
+const getUserHandler = async (request, h) => {
+  const user = await getAllUser();
+
+  const response = h.response({
+    status: 'success',
+    message: 'Input data berhasil',
+    data: {
+      user,
+    },
+  });
+  console.log('Pengguna ditemukan');
+  response.code(200);
+  return response;
+};
 
 const addRoomHandler = (request, h) => {
   const {
@@ -55,8 +82,8 @@ const addRoomHandler = (request, h) => {
 };
 
 const addUserByIdHandler = (request, h) => {
-  const { id, nama_pengguna } = request.payload;
-  const addQuery = `INSERT INTO pengguna (id_room, nama, peran, status) VALUES ('${id}', '${nama_pengguna}', 'entrant', false)`;
+  const { id_room, nama_pengguna } = request.payload;
+  const addQuery = `INSERT INTO pengguna (id_room, nama, peran, status) VALUES ('${id_room}', '${nama_pengguna}', 'entrant', false)`;
 
   con.query(addQuery, (error) => {
     if (error) throw error;
@@ -67,6 +94,65 @@ const addUserByIdHandler = (request, h) => {
     status: 'success',
     message: 'Input data berhasil',
   });
+  response.code(200);
+  return response;
+};
+
+const getUserId = (nama, roomId) => new Promise((resolve, reject) => {
+  const selectIdPengguna = `select id_pengguna from pengguna where nama = '${nama}' AND id_room = '${roomId}'`;
+  con.query(selectIdPengguna, (err, results) => {
+    if (err) {
+      return reject(err);
+    }
+    console.log(`
+      nama: ${nama}
+      roomId: ${roomId}
+      hasil: ${results}
+    `);
+    return resolve(results);
+  });
+});
+
+const addScheduleByIdHandler = async (request, h) => {
+  const {
+    roomId,
+    nama,
+    jamMulai,
+    jamSelesai,
+  } = request.payload;
+
+  const userId = await getUserId(nama, roomId);
+  console.log(`
+  nama: ${nama}
+  roomId: ${roomId}
+  userId: ${userId[0].id_pengguna}
+  `);
+  const response = h.response({
+    status: 'success',
+    message: 'Input data berhasil',
+    data: {
+      userId,
+      roomId,
+      jamMulai,
+      jamSelesai,
+    },
+  });
+
+  for (let i = 0; i < jamMulai.length; i++) {
+    const timeStartADate = jamMulai[i].timeStart;
+    const timeFinishADate = jamSelesai[i].timeFinish;
+    console.log(`Finish: ${timeFinishADate}`);
+    console.log(`Start: ${timeStartADate}`);
+
+    for (let b = 0; b < timeStartADate.length; b++) {
+      const insertQuery = `INSERT INTO jadwal_pengguna (id_pengguna, tanggal, jam_mulai, jam_selesai)
+      VALUES (${userId[0].id_pengguna}, '${jamMulai[i].date}', '${timeStartADate[b]}', '${timeFinishADate[b]}');`;
+      con.query(insertQuery, (err) => {
+        if (err) throw err;
+      });
+    }
+  }
+  console.log('Pengguna ditemukan');
   response.code(200);
   return response;
 };
@@ -272,9 +358,11 @@ const deleteBookByIdHandler = (request, h) => {
 };
 
 module.exports = {
+  getUserHandler,
   getRoomHandler,
   addRoomHandler,
   addUserByIdHandler,
+  addScheduleByIdHandler,
   addBookHandler,
   getAllBooksHandler,
   getBookByIdHandler,

@@ -16,7 +16,7 @@ const createRoomNameInputForm = () => `
 const createRoomDetailTemplate = (date) => `
   <form action="">
     <div id="date">
-      <span>${date}</span>
+      <span>${date.slice(0, 10)}</span>
     </div>
     <div id="description">
       <span>Start from</span>
@@ -25,24 +25,24 @@ const createRoomDetailTemplate = (date) => `
     </div>
     <div class="time-inputs">
       <div class="start-to-finish">
-        <input type="time" id="start">
-        <input type="time" id="finish">
+        <input type="time" id="startTimeOnDate${date.slice(0, 10)}">
+        <input type="time" id="finishTimeOnDate${date.slice(0, 10)}">
       </div>
       <div class="start-to-finish">
-        <input type="time" id="start">
-        <input type="time" id="finish">
+        <input type="time" id="startTimeOnDate${date.slice(0, 10)}">
+        <input type="time" id="finishTimeOnDate${date.slice(0, 10)}">
       </div>
       <div class="start-to-finish">
-        <input type="time" id="start">
-        <input type="time" id="finish">
+        <input type="time" id="startTimeOnDate${date.slice(0, 10)}">
+        <input type="time" id="finishTimeOnDate${date.slice(0, 10)}">
       </div>
       <div class="start-to-finish">
-        <input type="time" id="start">
-        <input type="time" id="finish">
+        <input type="time" id="startTimeOnDate${date.slice(0, 10)}">
+        <input type="time" id="finishTimeOnDate${date.slice(0, 10)}">
       </div>
       <div class="start-to-finish">
-        <input type="time" id="start">
-        <input type="time" id="finish">
+        <input type="time" id="startTimeOnDate${date}">
+        <input type="time" id="finishTimeOnDate${date}">
       </div>
     </div>
   </form>
