@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import CONFIG from '../../globals/config';
 
 const createInputForm = () => `
@@ -11,6 +12,67 @@ const createRoomNameInputForm = () => `
   <div>
     <input type="text" name="rooms-name" id="rooms-name">
   </div>
+`;
+
+const createResultTemplate = (result) => `
+  <div class="schedule">
+  <h5>${result}</h5>
+  <div class="hours">
+      <div class="hour-title">
+          <p>start</p>
+          <p>end</p>
+      </div>
+  </div>
+`;
+
+const createResultTemplateHour = (result) => `
+  <div class="hour">
+    <input type="checkbox">
+    <div><p>${result.jamMulai}</p></div>
+    <div><p>${result.jamBerakhir}</p></div>
+  </div>
+`;
+
+const createUserStatusTemplate = (user) => `
+  <tr>
+    <td>${user.nama}</td>
+    <td>${user.status}</td>
+  </tr>
+`;
+
+const createRoomDetailTemplate = (date) => `
+  <form action="">
+    <div id="date">
+      <span>${date}</span>
+    </div>
+    <div id="description">
+      <span>Start from</span>
+      <span>-</span>
+      <span>Finish at</span>
+    </div>
+    <div class="time-inputs">
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+      <div class="start-to-finish">
+        <input type="time" id="start">
+        <input type="time" id="finish">
+      </div>
+    </div>
+  </form>
 `;
 
 const createMovieDetailTemplate = (movie) => `
@@ -40,7 +102,7 @@ const createMovieItemTemplate = (movie) => `
            src="${movie.backdrop_path ? CONFIG.BASE_IMAGE_URL + movie.backdrop_path : 'https://picsum.photos/id/666/800/450?grayscale'}">
     </div>
     <div class="movie-item__content">
-      <h3><a href="/#/detail/${movie.id}">${movie.nama_room}</a></h3>
+      <h3><a href="/#/status/${movie.id}">${movie.nama_room}</a></h3>
       <p>${movie.id_room}</p>
     </div>
   </div>
@@ -61,8 +123,12 @@ const createLikedButtonTemplate = () => `
 export {
   createRoomNameInputForm,
   createInputForm,
+  createRoomDetailTemplate,
   createMovieItemTemplate,
   createMovieDetailTemplate,
   createLikeButtonTemplate,
   createLikedButtonTemplate,
+  createResultTemplate,
+  createResultTemplateHour,
+  createUserStatusTemplate,
 };

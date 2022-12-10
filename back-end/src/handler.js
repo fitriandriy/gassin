@@ -54,33 +54,86 @@ const addRoomHandler = (request, h) => {
   return response;
 };
 
-const getRoomByIdHandler = (request, h) => {
-  const { id_room } = request.params;
+const addUserByIdHandler = (request, h) => {
+  const { id, nama_pengguna } = request.payload;
+  const addQuery = `INSERT INTO pengguna (id_room, nama, peran, status) VALUES ('${id}', '${nama_pengguna}', 'entrant', false)`;
 
-  con.connect((err) => {
-    if (err) throw err;
-    con.query(`SELECT * FROM room WHERE id_room = '${id_room}'`, (result) => {
-      if (err) throw err;
-      // console.log(result);
-      if (result !== undefined) {
-        const response = h.response({
-          status: 'success',
-          data: {
-            result,
-          },
-        });
-        response.code(200);
-        return response;
-      }
-      const response = h.response({
-        status: 'fail',
-        message: 'Room ID tidak ditemukan',
-      });
-      response.code(404);
-      return response;
-    });
+  con.query(addQuery, (error) => {
+    if (error) throw error;
+    console.log('1 record inserted');
   });
-  // const book = books.filter((n) => n.id === id)[0];
+
+  const response = h.response({
+    status: 'success',
+    message: 'Input data berhasil',
+  });
+  response.code(200);
+  return response;
+};
+
+const getAllRooms = () => new Promise((resolve, reject) => {
+  const query = 'SELECT * FROM room; SELECT * FROM pilihan_hari; SELECT * FROM hasil; SELECT * FROM pengguna';
+  con.query(query, [], (err, results) => {
+    if (err) {
+      return reject(err);
+    }
+    return resolve(results);
+  });
+});
+
+const getRoomHandler = async () => {
+  const results = await getAllRooms();
+  return {
+    data: {
+      room: results[0],
+      pilihan_hari: results[1],
+      hasil: results[2],
+      pengguna: results[3],
+    },
+  };
+};
+
+// hasil
+const getHasilById = async (request) => {
+  const { id } = request.params;
+  const results = await getAllRooms();
+  const task = results[2].filter((hasil) => hasil.id_room === id);
+  return task;
+};
+
+const getHasilByIdUser = async (request) => {
+  const { id } = request.params;
+  const results = await getAllRooms();
+  const task = results[3].filter((hasil) => hasil.id_room === id && hasil.peran === 'entrant');
+  return task;
+};
+
+// const getAllUser = () => new Promise((resolve, reject) => {
+//   const selectPenggunaByIdRoom = 'SELECT * FROM pengguna';
+//   con.query(selectPenggunaByIdRoom, [], (err, results) => {
+//     if (err) {
+//       return reject(err);
+//     }
+//     return resolve(results);
+//   });
+// });
+
+const getUserHandler = async (request, h) => {
+  const { id } = request.params;
+
+  const userId = await getAllRooms();
+  const task = userId[3].filter((hasil) => hasil.id_room === id && hasil.peran === 'entrant');
+
+  const response = h.response({
+    status: 'success',
+    message: 'data pengguna berhasil ditampilkan',
+    data: {
+      task,
+    },
+  });
+  console.log('Pengguna ditemukan');
+  response.code(200);
+  return response;
 };
 
 const addBookHandler = (request, h) => {
@@ -264,11 +317,15 @@ const deleteBookByIdHandler = (request, h) => {
 };
 
 module.exports = {
+  getRoomHandler,
   addRoomHandler,
-  getRoomByIdHandler,
+  addUserByIdHandler,
   addBookHandler,
   getAllBooksHandler,
   getBookByIdHandler,
   editBookByIdHandler,
   deleteBookByIdHandler,
+  getHasilById,
+  getUserHandler,
+  getHasilByIdUser,
 };

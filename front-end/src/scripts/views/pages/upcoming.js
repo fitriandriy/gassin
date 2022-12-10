@@ -102,7 +102,7 @@ const Upcoming = {
           body: JSON.stringify(room),
         };
 
-        const response = await fetch(`${API_ENDPOINT.CREATE_ROOM}`, options);
+        const response = await fetch(`${API_ENDPOINT.ROOM}`, options);
         const responseJson = await response.json();
         showResponseMessage(responseJson.message);
       } catch (error) {

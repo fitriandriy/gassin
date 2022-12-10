@@ -268,7 +268,7 @@ main {
   margin-right: 10px;
 }
 
-form button {
+form button, #submit-button {
   height: 35px;
   width: 125px;
   border-radius: 30px;
@@ -312,4 +312,113 @@ form input {
 .join-room {
   display: flex;
   flex-direction: column;
+}
+
+/* DETAIL ROOM */
+
+.command-sign #room-description{
+  display: flex;
+  margin-top: 50px;
+}
+
+#room-description div {
+  padding: 15px 0 0 20px;
+}
+
+#room-description #event-description, #room-description #event-description2 {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}
+
+#room-description img {
+  width: 80px;
+}
+
+#input-form {
+  display: grid;
+  grid-template-columns: 400px 400px 400px;
+  text-align: center;
+}
+
+.start-to-finish {
+  display: flex;
+}
+
+form #date {
+  height: 35px;
+  width: 400px;
+  margin: 40px 0 20px 0;
+  border-radius: 30px;
+  background-color: rgba(43, 98, 224, 1);
+  border: 1px solid rgba(43, 98, 224, 1);
+  color: white;
+  box-shadow: 0 5px 10px grey;
+}
+
+form #description {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.detile-room #submit-button {
+  margin: 20px 0 0 46.5%;
+}
+
+
+.schedules{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.schedule {
+  margin-right: 20px;
+}
+
+/* DETAIL-RESULT */
+.schedule h5{
+  text-align: center;
+  background-color: #2B62E0;
+  border-radius: 10px;
+  color: white;
+  padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.hour-title{
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.hour {
+  display: flex;
+}
+
+.hour p{
+  padding: 8px;
+  border-radius: 10px;
+  border-width: 1px;
+  margin-top: 5px;
+  margin-right: 5px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.20) 0px 5px 15px;
+}
+
+.user_status>table {
+  background-color: aqua;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* DETAIL-STATUS */
+#status_table {
+  width: 50%;
+}
+
+#status_table,
+tr,
+td {
+  border: 1px black solid;
 }
