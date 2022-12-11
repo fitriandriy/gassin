@@ -79,8 +79,8 @@ const Detail = {
 
     const insertSchedule = (event) => {
       room.hari_dan_tanggal.forEach((date) => {
-        const timeStartValue = document.querySelectorAll(`#startTimeOnDate${date}`);
-        const timeFinishValue = document.querySelectorAll(`#finishTimeOnDate${date}`);
+        const timeStartValue = document.querySelectorAll(`#startTimeOnDate${date.slice(0, 10)}`);
+        const timeFinishValue = document.querySelectorAll(`#finishTimeOnDate${date.slice(0, 10)}`);
         const timeStartOnEachDate = {
           timeStart: [],
         };

@@ -1,9 +1,11 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
+/* eslint-disable prefer-rest-params */
+/* eslint-disable prefer-destructuring */
 /* eslint-disable max-len */
 /* eslint-disable no-plusplus */
 /* eslint-disable camelcase */
-const { nanoid } = require('nanoid');
 const mysql = require('mysql');
-const books = require('./books');
 
 const con = mysql.createConnection({
   host: 'localhost',
@@ -177,183 +179,232 @@ const getRoomHandler = async () => {
   };
 };
 
-const addBookHandler = (request, h) => {
-  const {
-    name, year, author, summary, publisher, pageCount, readPage, reading,
-  } = request.payload;
-
-  const id = nanoid(16);
-  const finished = false;
-  const insertedAt = new Date().toISOString();
-  const updatedAt = insertedAt;
-
-  const newBookItem = {
-    name,
-    year,
-    author,
-    summary,
-    publisher,
-    pageCount,
-    readPage,
-    reading,
-    id,
-    finished,
-    insertedAt,
-    updatedAt,
-  };
-
-  if (name === undefined) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Gagal menambahkan buku. Mohon isi nama buku',
-    });
-    response.code(400);
-    return response;
-  }
-
-  if (readPage > pageCount) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
-    });
-    response.code(400);
-    return response;
-  }
-
-  books.push(newBookItem);
-  const isSuccess = books.filter((book) => book.id === id).length > 0;
-
-  if (isSuccess) {
-    const response = h.response({
-      status: 'success',
-      message: 'Buku berhasil ditambahkan',
-      data: {
-        bookId: id,
-      },
-    });
-    response.code(201);
-    return response;
-  }
-  const response = h.response({
-    status: 'fail',
-    message: 'Buku gagal ditambahkan',
+const getUserScheduleByIdRoom = (id_room) => new Promise((resolve, reject) => {
+  const query = `SELECT * FROM jadwal_pengguna JOIN pengguna ON jadwal_pengguna.id_pengguna=pengguna.id_pengguna WHERE id_room = '${id_room}';
+  SELECT * FROM pilihan_hari WHERE id_room = '${id_room}'`;
+  con.query(query, [], (err, results) => {
+    if (err) {
+      return reject(err);
+    }
+    return resolve(results);
   });
-  response.code(500);
-  return response;
-};
-
-const getAllBooksHandler = () => ({
-  status: 'success',
-  data: {
-    books: books.map((book) => ({
-      id: book.id,
-      name: book.name,
-      publisher: book.publisher,
-    })),
-  },
 });
 
-const getBookByIdHandler = (request, h) => {
-  const { id } = request.params;
+function intersection() {
+  const result = [];
+  let lists;
 
-  const book = books.filter((n) => n.id === id)[0];
-
-  if (book !== undefined) {
-    const response = h.response({
-      status: 'success',
-      data: {
-        book,
-      },
-    });
-    response.code(200);
-    return response;
+  if (arguments.length === 1) {
+    lists = arguments[0];
+  } else {
+    lists = arguments;
   }
-  const response = h.response({
-    status: 'fail',
-    message: 'Buku tidak ditemukan',
+
+  for (let i = 0; i < lists.length; i++) {
+    const currentList = lists[i];
+    for (let y = 0; y < currentList.length; y++) {
+      const currentValue = currentList[y];
+      if (result.indexOf(currentValue) === -1) {
+        if (lists.filter((obj) => obj.indexOf(currentValue) === -1).length === 0) {
+          result.push(currentValue);
+        }
+      }
+    }
+  }
+  return result;
+}
+
+const postUserScheduleByIdRoomHandler = async (request, h) => {
+  const { id } = request.params;
+  const results = await getUserScheduleByIdRoom(id);
+  const result = results[0];
+
+  const date = [];
+  const dayOption = results[1];
+  dayOption.forEach((day) => {
+    date.push((`${day.hari_dan_tanggal}`).slice(0, 10));
   });
-  response.code(404);
-  return response;
-};
 
-const editBookByIdHandler = (request, h) => {
-  const { id } = request.params;
-
-  const {
-    name, year, author, summary, publisher, pageCount, readPage, reading,
-  } = request.payload;
-  const updatedAt = new Date().toISOString();
-
-  if (name === undefined) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Gagal memperbarui buku. Mohon isi nama buku',
-    });
-    response.code(400);
-    return response;
+  const listAllScheduleByDate = [];
+  for (let i = 0; i < date.length; i++) {
+    listAllScheduleByDate.push([]);
   }
 
-  if (readPage > pageCount) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
-    });
-    response.code(400);
-    return response;
+  let listAllSchedule = [];
+  let intervals = [];
+
+  for (let i = 0; i < result.length; i++) {
+    const dateIndex = date.indexOf(`${result[i].tanggal}`.slice(0, 10));
+    listAllScheduleByDate[dateIndex].push(result[i]);
   }
 
-  const index = books.findIndex((book) => book.id === id);
+  function convertNumToTime(number) {
+    // Check sign of given number
+    let sign = (number >= 0) ? 1 : -1;
 
-  if (index !== -1) {
-    books[index] = {
-      ...books[index],
-      name,
-      year,
-      author,
-      summary,
-      publisher,
-      pageCount,
-      readPage,
-      reading,
-      updatedAt,
+    // Set positive value of number of sign negative
+    // eslint-disable-next-line no-param-reassign
+    number *= sign;
+
+    // Separate the int from the decimal part
+    const hour = Math.floor(number);
+    let decpart = number - hour;
+
+    const min = 1 / 60;
+    // Round to nearest minute
+    decpart = min * Math.round(decpart / min);
+
+    let minute = `${Math.floor(decpart * 60)}`;
+
+    // Add padding if need
+    if (minute.length < 2) {
+      minute = `0${minute}`;
+    }
+
+    // Add Sign in final result
+    sign = sign == 1 ? '' : '-';
+
+    // Concate hours and minutes
+    time = `${sign + hour}:${minute}`;
+
+    return time;
+  }
+
+  const createInterval = (start, to) => {
+    const startInt = parseFloat(start.replace(/:/gi, '.'));
+    const toInt = parseFloat(to.replace(/:/gi, '.'));
+    for (let i = startInt; i <= toInt; i += 0.01) {
+      const ini = i.toString().split('.');
+      if (ini.length === 1) {
+        ini.push('00');
+      }
+      if (parseInt(ini[1].charAt(0), 10) < 6) {
+        intervals.push(i.toFixed(2));
+      }
+    }
+  };
+
+  for (let a = 0; a < listAllScheduleByDate.length; a++) {
+    const schedule = listAllScheduleByDate[a];
+    for (let i = 0; i < schedule.length; i++) {
+      const idUser = schedule[i].id_pengguna;
+      const start = schedule[i].jam_mulai;
+      const end = schedule[i].jam_selesai;
+      if (i === 0) {
+        createInterval(start, end);
+      } else if (idUser === schedule[i - 1].id_pengguna) {
+        if (i === schedule.length - 1) {
+          createInterval(start, end);
+          listAllSchedule.push(intervals);
+        } else {
+          createInterval(start, end);
+        }
+      } else if (idUser !== schedule[i - 1].id_pengguna) {
+        listAllSchedule.push(intervals);
+        intervals = [];
+        if (i === schedule.length - 1) {
+          createInterval(start, end);
+          listAllSchedule.push(intervals);
+        } else {
+          createInterval(start, end);
+        }
+      }
+    }
+    const freeTimeIntersection = intersection([...listAllSchedule]);
+
+    const inputZero = (time, b, position) => {
+      const output = [time.slice(0, position), b, time.slice(position)].join('');
+      return output;
     };
 
-    const response = h.response({
-      status: 'success',
-      message: 'Buku berhasil diperbarui',
+    const dataBaru = [];
+    freeTimeIntersection.forEach((hour) => {
+      if (hour.length === 4) {
+        dataBaru.push(inputZero(hour, '0', 0));
+      }
+
+      if (hour.length === 5) {
+        dataBaru.push(hour);
+      }
     });
-    response.code(200);
-    return response;
+
+    const freeTimeADate = [];
+    for (let z = 0; z < dataBaru.length; z++) {
+      let eachFreeTime = [];
+
+      if (z == 0) {
+        eachFreeTime.push(dataBaru[0]);
+        freeTimeADate.push(eachFreeTime);
+      }
+
+      if (z == dataBaru.length - 1) {
+        eachFreeTime.push(dataBaru[z]);
+        freeTimeADate.push(eachFreeTime);
+      }
+
+      if (z > 0) {
+        // Kalau menit +1 dan jamnya sama maka diskip
+        const menitSama = parseInt(`${dataBaru[z]}`.slice(-2), 10) == parseInt(`${dataBaru[z - 1]}`.slice(-2), 10) + 1;
+        const jamSama = `${dataBaru[z]}`.slice(0, 2) == `${dataBaru[z - 1]}`.slice(0, 2);
+        const menitBeda = parseInt(`${dataBaru[z]}`.slice(-2), 10) != parseInt(`${dataBaru[z - 1]}`.slice(-2), 10) + 1;
+        const jamBeda = `${dataBaru[z]}`.slice(0, 2) != `${dataBaru[z - 1]}`.slice(0, 2);
+
+        // SUKSES
+        if (menitSama && jamSama) {
+          // eslint-disable-next-line no-unused-vars
+          const skip = true;
+        }
+
+        if (menitSama && jamBeda) {
+          eachFreeTime.push(dataBaru[z - 1]);
+          freeTimeADate.push(eachFreeTime);
+          eachFreeTime = [];
+          eachFreeTime.push(dataBaru[z]);
+          freeTimeADate.push(eachFreeTime);
+        }
+        if (menitBeda) {
+          eachFreeTime.push(dataBaru[z - 1]);
+          freeTimeADate.push(eachFreeTime);
+          eachFreeTime = [];
+          eachFreeTime.push(dataBaru[z]);
+          freeTimeADate.push(eachFreeTime);
+        }
+      }
+    }
+
+    const dateObj = new Date(`${date[a]}`);
+    const month = dateObj.getUTCMonth() + 1; // months from 1-12
+    const day = dateObj.getUTCDate() + 1;
+    const year = dateObj.getUTCFullYear();
+
+    const newdate = `${year}-${month}-${day}`;
+    console.log(newdate);
+
+    for (let z = 0; z < freeTimeADate.length; z += 2) {
+      const insertQuery = `INSERT INTO hasil (id_room, tanggal, jam_mulai, jam_selesai, voting)
+      VALUES ('${id}', '${newdate}', '${convertNumToTime(freeTimeADate[z])}', '${convertNumToTime(freeTimeADate[z + 1])}', ${0});`;
+      con.query(insertQuery, (err) => {
+        if (err) throw err;
+      });
+    }
+
+    console.log(`freetime tiap tanggal = ${freeTimeADate}`);
+    if (freeTimeADate.length == 0) {
+      const response = h.response({
+        status: 'success',
+        message: 'Tidak menemukan kesamaan waktu',
+      });
+      response.code(400);
+      return response;
+    }
+    listAllSchedule = [];
   }
 
   const response = h.response({
-    status: 'fail',
-    message: 'Gagal memperbarui buku. Id tidak ditemukan',
+    status: 'success',
+    message: 'Data berhasil diinput',
   });
-  response.code(404);
-  return response;
-};
-
-const deleteBookByIdHandler = (request, h) => {
-  const { id } = request.params;
-
-  const index = books.findIndex((book) => book.id === id);
-
-  if (index !== -1) {
-    books.splice(index, 1);
-    const response = h.response({
-      status: 'success',
-      message: 'Buku berhasil dihapus',
-    });
-    response.code(200);
-    return response;
-  }
-
-  const response = h.response({
-    status: 'fail',
-    message: 'Buku gagal dihapus. Id tidak ditemukan',
-  });
-  response.code(404);
+  response.code(200);
   return response;
 };
 
@@ -363,9 +414,5 @@ module.exports = {
   addRoomHandler,
   addUserByIdHandler,
   addScheduleByIdHandler,
-  addBookHandler,
-  getAllBooksHandler,
-  getBookByIdHandler,
-  editBookByIdHandler,
-  deleteBookByIdHandler,
+  postUserScheduleByIdRoomHandler,
 };

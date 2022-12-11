@@ -41,8 +41,8 @@ const createRoomDetailTemplate = (date) => `
         <input type="time" id="finishTimeOnDate${date.slice(0, 10)}">
       </div>
       <div class="start-to-finish">
-        <input type="time" id="startTimeOnDate${date}">
-        <input type="time" id="finishTimeOnDate${date}">
+        <input type="time" id="startTimeOnDate${date.slice(0, 10)}">
+        <input type="time" id="finishTimeOnDate${date.slice(0, 10)}">
       </div>
     </div>
   </form>
