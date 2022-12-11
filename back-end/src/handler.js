@@ -50,7 +50,6 @@ const addRoomHandler = (request, h) => {
   const sql = 'INSERT INTO room (id_room, nama_room) VALUES ?; INSERT INTO pengguna (id_room, nama, peran, status) VALUES ?';
   const sql2 = 'INSERT INTO pilihan_hari (id_room, hari_dan_tanggal) VALUES ?';
 
-  // const sql3 = 'INSERT INTO pengguna (id_room, nama, peran, status) VALUES ?';
   const roomInfoValues = [
     [`${id_room}`, `${nama_room}`],
   ];
@@ -138,6 +137,11 @@ const addScheduleByIdHandler = async (request, h) => {
       jamMulai,
       jamSelesai,
     },
+  });
+
+  const queryUpdate = `UPDATE pengguna SET status = 1 WHERE id_pengguna = ${userId[0].id_pengguna};`;
+  con.query(queryUpdate, (err) => {
+    if (err) throw err;
   });
 
   for (let i = 0; i < jamMulai.length; i++) {
@@ -239,32 +243,20 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
   }
 
   function convertNumToTime(number) {
-    // Check sign of given number
     let sign = (number >= 0) ? 1 : -1;
-
-    // Set positive value of number of sign negative
     // eslint-disable-next-line no-param-reassign
     number *= sign;
-
-    // Separate the int from the decimal part
     const hour = Math.floor(number);
     let decpart = number - hour;
-
     const min = 1 / 60;
-    // Round to nearest minute
     decpart = min * Math.round(decpart / min);
-
     let minute = `${Math.floor(decpart * 60)}`;
 
-    // Add padding if need
     if (minute.length < 2) {
       minute = `0${minute}`;
     }
 
-    // Add Sign in final result
     sign = sign == 1 ? '' : '-';
-
-    // Concate hours and minutes
     time = `${sign + hour}:${minute}`;
 
     return time;
@@ -343,13 +335,11 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
       }
 
       if (z > 0) {
-        // Kalau menit +1 dan jamnya sama maka diskip
         const menitSama = parseInt(`${dataBaru[z]}`.slice(-2), 10) == parseInt(`${dataBaru[z - 1]}`.slice(-2), 10) + 1;
         const jamSama = `${dataBaru[z]}`.slice(0, 2) == `${dataBaru[z - 1]}`.slice(0, 2);
         const menitBeda = parseInt(`${dataBaru[z]}`.slice(-2), 10) != parseInt(`${dataBaru[z - 1]}`.slice(-2), 10) + 1;
         const jamBeda = `${dataBaru[z]}`.slice(0, 2) != `${dataBaru[z - 1]}`.slice(0, 2);
 
-        // SUKSES
         if (menitSama && jamSama) {
           // eslint-disable-next-line no-unused-vars
           const skip = true;
