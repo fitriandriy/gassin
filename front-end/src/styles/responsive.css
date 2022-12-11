@@ -1,3 +1,78 @@
+@media screen and (max-width: 546px) {
+  label #btn {
+      display: block;
+  }
+
+  #navul {
+      display: none;
+  }
+
+  #navul2 {
+      float: right;
+      display: flex;
+      flex-direction: column;
+  }
+
+  nav ul {
+      position: fixed;
+      width: 100%;
+      height: 100vh;
+      background-color: #02246a;
+      top: 80px;
+      left: -100%;
+      text-align: center;
+      transition: all .5s;
+  }
+
+  nav ul li {
+      display: block;
+      padding-bottom: 50px;
+  }
+
+  #check:checked ~ ul {
+      left: 0;
+  }
+
+  #check:checked ~ label #btn {
+      display: none;
+  }
+
+  #check:checked ~ label #cancel {
+      display: block;
+  }
+
+  .pic-home img {
+      display: none;
+  }
+
+  .text-home h1 {
+      font-size: 60%;
+  }
+
+}
+
+@media screen and (max-width: 1126px) {
+  .pic-home img {
+      width: 100%;
+      height: auto;
+  }
+
+  .home {
+      display: flex;
+      flex-wrap: wrap;
+  }
+
+  .benefit {
+      display: felx;
+      flex-wrap: wrap;
+  }
+
+  .imgbenefit img {
+      width: 100%;
+      height: auto;
+  }
+}
+
 @media screen and (min-width: 650px) {
   .app-bar {
     grid-template-columns: 1fr auto;

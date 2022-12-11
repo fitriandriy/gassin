@@ -15,8 +15,19 @@ const Like = {
   async afterRender() {
     const movies = await FavoriteMovieIdb.getAllMovies();
     const moviesContainer = document.querySelector('#movies');
+
     movies.forEach((movie) => {
-      moviesContainer.innerHTML += createMovieItemTemplate(movie);
+      // const page = 'result';
+      const users = JSON.parse(localStorage.getItem('detail'));
+      let page;
+      if (users === null) {
+        page = 'detail';
+      } else if (users.includes(movie.nama_pengguna)) {
+        page = 'result';
+      } else {
+        page = 'detail';
+      }
+      moviesContainer.innerHTML += createMovieItemTemplate(movie, page);
     });
   },
 };

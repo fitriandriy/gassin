@@ -24,7 +24,6 @@ body {
   position: sticky;
   top: 0;
   z-index: 99;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .app-bar .app-bar__menu {
@@ -72,6 +71,308 @@ body {
   margin-bottom: 5px;
   width: 100%;
 }
+
+.app-bar .app-bar__navigation ul li :hover {
+  color: #2B62E0;
+}
+
+.app-bar .app-bar__navigation ul li span {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+/* HOMEPAGE */
+
+.command-sign {
+  margin-left: 40px;
+}
+
+.join-room {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.join-room input {
+  padding: 5px 15px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.join-room p {
+  font-size: small;
+  color: #DB0000;
+  font-style: italic;
+}
+
+.inputUser {
+  margin-top: 5px;
+}
+
+.join-room button {
+  margin-top: 15px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.join-room button:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.contentInput {
+  display: flex;
+  justify-content: space-around;
+}
+
+.contentInput img {
+  width: 250px;
+}
+
+.contentInput {
+  display: flex;
+}
+
+.home{
+  width: 100%;
+  min-height: 86vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.content-home {
+  padding-left: 90px;
+  padding-right: 50px;
+}
+
+.text-home h2{
+  font-size: 50px;
+  padding-bottom: 20px;
+}
+
+.text-home h2 span{
+  color: #2B62E0;
+}
+
+.text-home p {
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.pic-home {
+  padding-right: 70px;
+  padding-top: 30px;
+}
+
+.pic-home img {
+  width: 450px;
+  height: auto;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 80px;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  text-align: center;
+  background-color: #EBECF0;
+  padding: 80px;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  transition: ease-in all 0.5s;
+  max-width: 200px;
+}
+
+.img-icon {
+  background-color: #2B62E0;
+  padding: 25px;
+  width: 100px;
+  border-radius: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: auto;
+}
+
+.card p {
+  color: black;
+}
+
+.card h3 {
+  padding: 30px 0 5px 0;
+}
+
+#next2 {
+  display: none;
+}
+
+.next img {
+  width: 50px;
+  padding-top: 30px;
+}
+
+.card:hover {
+  cursor: pointer;
+  background-color: #2B62E0;
+}
+
+.card:hover .img-icon {
+  cursor: pointer;
+  background-color: #fec955;
+}
+
+.card:hover h3 {
+  cursor: pointer;
+  color: white;
+}
+
+.card:hover p {
+  cursor: pointer;
+  color: white;
+}
+
+.card:hover #next {
+  display: none;
+  cursor: pointer;
+}
+
+.card:hover #next2 {
+  display: block;
+  cursor: pointer;
+}
+
+.benefit {
+  padding: 40px;
+  display: flex;
+}
+
+#next2 {
+  display: none;
+}
+
+.next img {
+  width: 50px;
+  padding-top: 30px;
+}
+
+.card:hover {
+  cursor: pointer;
+  background-color: #2B62E0;
+}
+
+.card:hover .img-icon {
+  cursor: pointer;
+  background-color: #fec955;
+}
+
+.card:hover h3 {
+  cursor: pointer;
+  color: white;
+}
+
+.card:hover p {
+  cursor: pointer;
+  color: white;
+}
+
+.card:hover #next {
+  display: none;
+  cursor: pointer;
+}
+
+.card:hover #next2 {
+  display: block;
+  cursor: pointer;
+}
+
+/* CREATE ROOM */
+
+.command-sign {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 100px;
+}
+
+.command-sign #command-sign-icon {
+  width: 250px;
+}
+
+.command-sign #command-sign-text {
+  padding-top: 30px;
+  font-size: 20px;
+}
+
+.command-sign #command-sign-text hr {
+  border: 2px rgba(43, 98, 224, 1);
+}
+
+.day-options {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 100px;
+}
+
+.day-options #day-options {
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+  width: 300px;
+}
+
+.day-options #day-options input {
+  margin-right: 10px;
+}
+
+form button, #submit-button {
+  height: 45px;
+  width: 160px;
+  border-radius: 30px;
+  background-color: rgba(43, 98, 224, 1);
+  border: 1px solid rgba(43, 98, 224, 1);
+  color: white;
+}
+
+form button:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+form input {
+  height: 35px;
+  width: 300px;
+  border: 1px solid rgb(247, 247, 247);
+  border-radius: 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  margin-bottom: 15px;
+  padding: 5px 15px;
+}
+
+#room-info #label, #input-form #create-button {
+  visibility: hidden;
+}
+
+#room-info #label #rooms-name-label {
+  margin-right: 80px;
+  padding-bottom: 30px;
+}
+
+.day-options #room-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.day-options #room-info #input-form, .day-options #room-info #input-form #date-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 
 /*
   Main Content
@@ -146,6 +447,10 @@ main {
 .movie-item .movie-item__content h3 a {
   color: #db0000;
   text-decoration: none;
+}
+
+.movie-item .movie-item__content h3 a:hover {
+  color:#2B62E0;
 }
 
 .movie-item .movie-item__content p {
@@ -230,95 +535,12 @@ main {
   outline: 3px solid #DB000055;
 }
 
-/* CREATE ROOM */
-
-.command-sign {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 100px;
-}
-
-.command-sign #command-sign-icon {
-  width: 250px;
-}
-
-.command-sign #command-sign-text {
-  padding-top: 30px;
-  font-size: 20px;
-}
-
-.command-sign #command-sign-text hr {
-  border: 2px solid rgba(43, 98, 224, 1);
-}
-
-.day-options {
-  display: flex;
-  justify-content: space-between;
-  padding: 40px 100px;
-}
-
-.day-options #day-options {
-  display: flex;
-  justify-content: space-between;
-  height: 30px;
-  width: 300px;
-}
-
-.day-options #day-options input {
-  margin-right: 10px;
-}
-
-form button, #submit-button {
-  height: 35px;
-  width: 125px;
-  border-radius: 30px;
-  background-color: rgba(43, 98, 224, 1);
-  border: 1px solid rgba(43, 98, 224, 1);
-  color: white;
-  box-shadow: 0 5px 10px grey;
-}
-
-form input {
-  height: 35px;
-  width: 300px;
-  border: 1px solid rgb(247, 247, 247);
-  border-radius: 30px;
-  box-shadow: 0 5px 10px grey;
-  margin-bottom: 15px;
-}
-
-#room-info #label, #input-form #create-button {
-  visibility: hidden;
-}
-
-#room-info #label #rooms-name-label {
-  margin-right: 80px;
-  padding-bottom: 30px;
-}
-
-.day-options #room-info {
-  display: flex;
-  justify-content: space-between;
-}
-
-.day-options #room-info #input-form, .day-options #room-info #input-form #date-form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* HOMEPAGE */
-
-.join-room {
-  display: flex;
-  flex-direction: column;
-}
-
 /* DETAIL ROOM */
 
 .command-sign #room-description {
   display: flex;
   margin-top: 50px;
+  align-items: center;
 }
 
 #room-description div {
@@ -333,6 +555,14 @@ form input {
 
 #room-description img {
   width: 80px;
+}
+
+#room-description p {
+  margin-right: 20px;
+}
+
+#result {
+  margin-top: 40px;
 }
 
 #input-form {
@@ -363,4 +593,105 @@ form #description {
 
 .detile-room #submit-button {
   margin: 20px 0 0 46.5%;
+}
+
+.time-inputs button {
+  background-color: white;
+  padding: 0;
+  border: none;
+}
+
+/* DETAIL-STATUS */
+#status_table {
+  width: 50%;
+}
+
+.user_status table th {
+  background-color: #2B62E0;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.user_status table td {
+  text-align: center;
+}
+
+#laman a {
+  text-decoration: none;
+  color: black;
+}
+
+#laman p span a {
+  color: #2B62E0;
+}
+
+#resultButton {
+  border: none;
+  margin: auto;
+  width: 10%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#resultButton button {
+  background-color: #2B62E0;
+  border: none;
+  padding: 10px;
+  border-radius: 9px;
+}
+
+/* DETAIL-RESULT */
+.schedule h5{
+  text-align: center;
+  background-color: #2B62E0;
+  border-radius: 10px;
+  color: white;
+  padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.hour-title{
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.hour {
+  display: flex;
+}
+
+.hour p{
+  padding: 8px;
+  border-radius: 10px;
+  border-width: 1px;
+  margin-top: 5px;
+  margin-right: 5px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.20) 0px 5px 15px;
+}
+
+.user_status>table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* DETAIL-VOTING */
+.voting {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.voting table {
+  width: 60%;
+  text-align: center;
+}
+
+.voting th, .voting td {
+  padding: 10px;
+}
+
+.voting th {
+  background-color: #2B62E0;
+  border-radius: 20px;
 }

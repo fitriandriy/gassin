@@ -80,7 +80,7 @@ const NowPlaying = {
         }
       });
 
-      window.location.assign('http://localhost:9000/#/like');
+      window.location.assign('http://localhost:9009/#/like');
     };
 
     joinButton.addEventListener('click', insertBook);
