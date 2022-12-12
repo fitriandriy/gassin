@@ -12,6 +12,10 @@ Gassin is a website-based application that can accommodate schedule input from a
 
 In this the project directory, you can run:
 
+### `npm install`
+
+installing the third party modules and all dependecies in this current directory.
+
 ### `npm run build`
 
 Builds the app for production to the `dist` folder.\
