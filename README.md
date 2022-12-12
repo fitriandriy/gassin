@@ -24,23 +24,23 @@ Menyepakati penjadwalan suatu kegiatan yang melibatkan banyak orang seringkali m
 - Postman
 - MySql
 
-## Documentation
+## Result
 
-1. Clone repository di lokal dengan git command
-```
-git clone git@github.com:mellasylvie/CL-TB_Capstone.git
-```
-2. Pastikan sudah menginstal resources yang dibutuhkan, termasuk library dan framework 
-3. Buka Visual Studio Code
-3. Buka folder yang berisi repository ini
-4. Jalankan file app.py
-5. Buka browser di address berikut
-```sh 
-http://127.0.0.1:3000/
-```
+### Tampilan Create Room
+[![create-room.jpg](https://i.postimg.cc/3RSHqCsC/create-room.jpg)](https://postimg.cc/JDkgDJ4G)
+
+### Tampilan Result Room
+[![3.jpg](https://i.postimg.cc/B6Whn8x9/3.jpg)](https://postimg.cc/zLjwdGt0)
+
+### Tampilan Voting Room
+[![4.jpg](https://i.postimg.cc/8zQswNBk/4.jpg)](https://postimg.cc/fJCwR4r1)
 
 ## Our Team
 
-### CSD-087
-1. M014V6039 - Marissa Audina 
-2. M332V6344 - Mellania Permata Sylvie 
+### C22-157
+1. F227Y0453 - Fira Yusi Rukmana
+2. F227Y0454 - Fitri Andriyani
+3. F359X0921 - Dian Putra Anugrahnu
+4. F359X0922 - Joan Tony Revaldo
+
+[![dokumentasi.jpg](https://i.postimg.cc/pX7c61pL/dokumentasi.jpg)](https://postimg.cc/fJcv3CcG)
