@@ -10,7 +10,7 @@ Gassin is a website-based application that can accommodate schedule input from a
 
 ## Available Scripts
 
-In the project directory, you can run:
+In this the project directory, you can run:
 
 ### `npm run build`
 
@@ -19,4 +19,4 @@ It correctly bundles in production mode and optimizes the build for the best per
 
 ### `npm run start-dev`
 
-Runs the program that has been build
+run the dev script defined inside a package. json file.
