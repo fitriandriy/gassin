@@ -1,5 +1,4 @@
 /* eslint-disable eqeqeq */
-/* eslint-disable no-undef */
 /* eslint-disable prefer-rest-params */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable max-len */
@@ -179,6 +178,8 @@ const getRoomHandler = async () => {
     data: {
       room: results[0],
       pilihan_hari: results[1],
+      hasil: results[2],
+      pengguna: results[3],
     },
   };
 };
@@ -257,7 +258,7 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
     }
 
     sign = sign == 1 ? '' : '-';
-    time = `${sign + hour}:${minute}`;
+    const time = `${sign + hour}:${minute}`;
 
     return time;
   }
@@ -398,7 +399,71 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
   return response;
 };
 
+const getUserByIdRoom = (roomId) => new Promise((resolve, reject) => {
+  const selectIdPengguna = `select * from pengguna where id_room = '${roomId}'`;
+  con.query(selectIdPengguna, (err, results) => {
+    if (err) {
+      return reject(err);
+    }
+    return resolve(results);
+  });
+});
+
+const getUserByIdHandler = async (request, h) => {
+  const { id } = request.params;
+  const result = await getUserByIdRoom(id);
+
+  // const userId = await getAllRooms();
+  // const task = userId[3].filter((hasil) => hasil.id_room === id);
+
+  const response = h.response({
+    status: 'success',
+    message: 'data pengguna berhasil ditampilkan',
+    data: {
+      result,
+    },
+  });
+  response.code(200);
+  return response;
+};
+
+const getHasilById = async (request, h) => {
+  const { id } = request.params;
+  const results = await getAllRooms();
+  const task = results[2].filter((hasil) => hasil.id_room === id);
+
+  const response = h.response({
+    status: 'success',
+    message: 'data hasil jadwal berhasil ditampilkan',
+    data: {
+      task,
+    },
+  });
+  response.code(200);
+  return response;
+};
+
+const updateVoting = async (request) => {
+  const { id } = request.params;
+  const idParsed = parseInt(id, 10);
+  let response;
+
+  const results = await getAllRooms();
+  const index = results[2].findIndex((hasil) => hasil.idHasil === idParsed);
+  if (index !== -1) {
+    const idHasilUpdate = parseInt(results[2][index].idHasil, 10);
+    const updateVotingInDB = results[2][index].voting + 1;
+    const sql = `UPDATE hasil SET voting = ${updateVotingInDB} WHERE idHasil = ${idHasilUpdate}`;
+    con.query(sql);
+    response = 'succes';
+  }
+  return response;
+};
+
 module.exports = {
+  getUserByIdHandler,
+  updateVoting,
+  getHasilById,
   getUserHandler,
   getRoomHandler,
   addRoomHandler,
