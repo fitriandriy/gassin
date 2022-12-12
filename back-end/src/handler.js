@@ -1,5 +1,4 @@
 /* eslint-disable eqeqeq */
-/* eslint-disable no-undef */
 /* eslint-disable prefer-rest-params */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable max-len */
@@ -259,7 +258,7 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
     }
 
     sign = sign == 1 ? '' : '-';
-    time = `${sign + hour}:${minute}`;
+    const time = `${sign + hour}:${minute}`;
 
     return time;
   }
@@ -400,6 +399,34 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
   return response;
 };
 
+const getUserByIdRoom = (roomId) => new Promise((resolve, reject) => {
+  const selectIdPengguna = `select * from pengguna where id_room = '${roomId}'`;
+  con.query(selectIdPengguna, (err, results) => {
+    if (err) {
+      return reject(err);
+    }
+    return resolve(results);
+  });
+});
+
+const getUserByIdHandler = async (request, h) => {
+  const { id } = request.params;
+  const result = await getUserByIdRoom(id);
+
+  // const userId = await getAllRooms();
+  // const task = userId[3].filter((hasil) => hasil.id_room === id);
+
+  const response = h.response({
+    status: 'success',
+    message: 'data pengguna berhasil ditampilkan',
+    data: {
+      result,
+    },
+  });
+  response.code(200);
+  return response;
+};
+
 const getHasilById = async (request, h) => {
   const { id } = request.params;
   const results = await getAllRooms();
@@ -434,6 +461,7 @@ const updateVoting = async (request) => {
 };
 
 module.exports = {
+  getUserByIdHandler,
   updateVoting,
   getHasilById,
   getUserHandler,

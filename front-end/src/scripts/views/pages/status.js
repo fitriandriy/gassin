@@ -100,8 +100,8 @@ const Status = {
 
     const response = await fetch(`${API_ENDPOINT.DETAIL_USER(room.id_room)}`, options);
     const responseJson = await response.json();
-    const responseJsonArray = responseJson.data.task;
-    console.log(`hasil ${JSON.stringify(responseJson)}`);
+    const responseJsonArray = responseJson.data.result;
+    console.log(`hasil ${JSON.stringify(responseJson.data.result)}`);
     const userStatus = document.getElementById('status_table');
     const voting = [];
     responseJsonArray.forEach((restaurant) => {

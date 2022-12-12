@@ -70,7 +70,7 @@ const Homepage = {
   },
 
   async afterRender() {
-    const joinButton = document.getElementById('join-code');
+    const joinButton = document.getElementById('join-button');
     const joinCodeInput = document.getElementById('join-code');
     // const usernameInput = document.getElementById('username');
     const validationCode = document.getElementById('validationCode');
@@ -104,7 +104,7 @@ const Homepage = {
       console.log(responseJson);
     };
 
-    const insertBook = async () => {
+    const insertBook = async (event) => {
       const joinCode = document.getElementById('join-code').value;
       const username = document.getElementById('username').value;
 
@@ -140,7 +140,7 @@ const Homepage = {
           console.log(`GATAU: ${roomId[0]}`);
         }
       });
-
+      event.prevenDefault();
       window.location.assign('http://localhost:9009/#/like');
     };
 
