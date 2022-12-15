@@ -3,6 +3,7 @@ import CONFIG from './config';
 const API_ENDPOINT = {
   ROOM: `${CONFIG.BASE_URL_LOCAL}room`,
   DETAIL_ROOM: (id) => `${CONFIG.BASE_URL_LOCAL}room/${id}`,
+  RESULTS: `${CONFIG.BASE_URL_LOCAL}room`,
   USER: `${CONFIG.BASE_URL_LOCAL}user`,
   DETAIL_USER: (id) => `${CONFIG.BASE_URL_LOCAL}user/${id}`,
   UPDATE_VOTING: (id) => `${CONFIG.BASE_URL_LOCAL}room/${id}`,

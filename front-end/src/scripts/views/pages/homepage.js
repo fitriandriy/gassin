@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
 /* eslint-disable camelcase */
 /* eslint-disable no-undef */
 // import TheMovieDbSource from '../../data/themoviedb-source';
+import { async } from 'regenerator-runtime';
 import FavoriteMovieIdb from '../../data/favorite-movie-idb';
 import API_ENDPOINT from '../../globals/api-endpoint';
 // import { createMovieItemTemplate } from '../templates/template-creator';
@@ -21,8 +23,8 @@ const Homepage = {
                       <input type="" name="" id="join-code" placeholder="enter your join code" minlength="15" maxlength="16" required>
                       <p id="validationCode"></p>
                     </div>
-                    <div class="inputUser">
-                      <input type="text" name="" id="username" placeholder="enter a your name" required>
+                    <div class="inputUser1">
+                      <input type="" name="" id="username" placeholder="enter a your name" required>
                       <p id="validationUsername"></p>
                     </div>
                     <button id="join-button" type="submit">JOIN</button>
@@ -72,6 +74,7 @@ const Homepage = {
   async afterRender() {
     const joinButton = document.getElementById('join-button');
     const joinCodeInput = document.getElementById('join-code');
+    // console.log(joinCodeInput.value);
     // const usernameInput = document.getElementById('username');
     const validationCode = document.getElementById('validationCode');
     joinCodeInput.addEventListener('input', () => {
@@ -89,7 +92,6 @@ const Homepage = {
         nama_room: roomsName,
         hari_dan_tanggal: dateValues,
       };
-
       await FavoriteMovieIdb.addMovie(room);
       const options = {
         method: 'POST',
@@ -107,7 +109,6 @@ const Homepage = {
     const insertBook = async (event) => {
       const joinCode = document.getElementById('join-code').value;
       const username = document.getElementById('username').value;
-
       const options = {
         method: 'GET',
       };
@@ -119,7 +120,6 @@ const Homepage = {
       const pilihanHari = [];
       const { room, pilihan_hari } = responseJson.data;
       const roomId = [];
-
       room.forEach((roomItem) => {
         if (roomItem.id_room == joinCode) {
           console.log(`ID ROOM: ${roomItem.id_room}`);
@@ -130,7 +130,6 @@ const Homepage = {
               pilihanHari.push(day.hari_dan_tanggal);
             }
           });
-
           postDataUser(
             roomId[0],
             username,
@@ -144,7 +143,26 @@ const Homepage = {
       window.location.assign('http://localhost:9009/#/like');
     };
 
-    joinButton.addEventListener('click', insertBook);
+    const option = {
+      method: 'GET',
+    };
+    const responses = await fetch(`${API_ENDPOINT.RESULTS}`, option);
+    const responseJsons = await responses.json();
+    const responseJsonArrays = responseJsons.data.task;
+    const idRoomResult = [];
+
+    responseJsonArrays.forEach((hasil) => {
+      idRoomResult.push(hasil.id_room);
+    });
+
+    joinButton.addEventListener('click', (e) => {
+      if (idRoomResult.includes(joinCodeInput.value)) {
+        alert('maaf anda tidak bisa join room ini');
+      } else {
+        insertBook();
+      }
+      e.preventDefault();
+    });
   },
 };
 
