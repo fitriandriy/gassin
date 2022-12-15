@@ -4,7 +4,7 @@ const {
   addUserByIdHandler,
   addRoomHandler,
   addScheduleByIdHandler,
-  getRoomHandler,
+  getAllHasil,
   getHasilById,
   updateVoting,
   postUserScheduleByIdRoomHandler,
@@ -35,7 +35,7 @@ const routes = [
   {
     method: 'GET',
     path: '/room',
-    handler: getRoomHandler,
+    handler: getAllHasil,
   },
   {
     method: 'GET',

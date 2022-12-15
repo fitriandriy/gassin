@@ -10,7 +10,7 @@ const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'gassin',
+  database: 'gassinDb',
   multipleStatements: true,
 });
 
@@ -163,7 +163,7 @@ const addScheduleByIdHandler = async (request, h) => {
 };
 
 const getAllRooms = () => new Promise((resolve, reject) => {
-  const query = 'SELECT * FROM room; SELECT * FROM pilihan_hari';
+  const query = 'SELECT * FROM room; SELECT * FROM pilihan_hari; SELECT * FROM hasil ORDER BY voting DESC; SELECT * FROM pengguna';
   con.query(query, [], (err, results) => {
     if (err) {
       return reject(err);
@@ -427,6 +427,21 @@ const getUserByIdHandler = async (request, h) => {
   return response;
 };
 
+const getAllHasil = async (request, h) => {
+  const results = await getAllRooms();
+  const task = results[2];
+
+  const response = h.response({
+    status: 'success',
+    message: 'data hasil jadwal berhasil ditampilkan',
+    data: {
+      task,
+    },
+  });
+  response.code(200);
+  return response;
+};
+
 const getHasilById = async (request, h) => {
   const { id } = request.params;
   const results = await getAllRooms();
@@ -470,4 +485,5 @@ module.exports = {
   addUserByIdHandler,
   addScheduleByIdHandler,
   postUserScheduleByIdRoomHandler,
+  getAllHasil,
 };
