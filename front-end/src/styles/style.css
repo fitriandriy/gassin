@@ -625,7 +625,7 @@ form #description {
   color: #2B62E0;
 }
 
-#resultButton {
+#generateResultButton, #seeResult {
   border: none;
   margin: auto;
   width: 10%;
@@ -633,8 +633,9 @@ form #description {
   margin-top: 20px;
 }
 
-#resultButton button {
+#generateResultButton button#generate-result-button, #seeResult button {
   background-color: #2B62E0;
+  color: white;
   border: none;
   padding: 10px;
   border-radius: 9px;

@@ -5,12 +5,9 @@ const API_ENDPOINT = {
   DETAIL_ROOM: (id) => `${CONFIG.BASE_URL_LOCAL}room/${id}`,
   USER: `${CONFIG.BASE_URL_LOCAL}user`,
   DETAIL_USER: (id) => `${CONFIG.BASE_URL_LOCAL}user/${id}`,
-  UPDATE_VOTING: (id) => `${CONFIG.BASE_URL_LOCAL}room/${id}`,
-  RESULT: (id) => `${CONFIG.BASE_URL_LOCAL}room/${id}/schedule`,
+  UPDATE_VOTING: (id) => `${CONFIG.BASE_URL_LOCAL}result/${id}`,
+  RESULT: (id) => `${CONFIG.BASE_URL_LOCAL}room/${id}/result`,
   SCHEDULE: `${CONFIG.BASE_URL_LOCAL}user/schedule`,
-  NOW_PLAYING: `${CONFIG.BASE_URL}movie/now_playing?api_key=${CONFIG.KEY}&language=${CONFIG.DEFAULT_LANGUAGE}&page=1`,
-  UPCOMING: `${CONFIG.BASE_URL}movie/upcoming?api_key=${CONFIG.KEY}&language=${CONFIG.DEFAULT_LANGUAGE}&page=1`,
-  DETAIL: (id) => `${CONFIG.BASE_URL}movie/${id}?api_key=${CONFIG.KEY}`,
 };
 
 export default API_ENDPOINT;

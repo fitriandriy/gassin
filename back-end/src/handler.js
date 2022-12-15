@@ -104,11 +104,6 @@ const getUserId = (nama, roomId) => new Promise((resolve, reject) => {
     if (err) {
       return reject(err);
     }
-    console.log(`
-      nama: ${nama}
-      roomId: ${roomId}
-      hasil: ${results}
-    `);
     return resolve(results);
   });
 });
@@ -152,9 +147,12 @@ const addScheduleByIdHandler = async (request, h) => {
     for (let b = 0; b < timeStartADate.length; b++) {
       const insertQuery = `INSERT INTO jadwal_pengguna (id_pengguna, tanggal, jam_mulai, jam_selesai)
       VALUES (${userId[0].id_pengguna}, '${jamMulai[i].date}', '${timeStartADate[b]}', '${timeFinishADate[b]}');`;
-      con.query(insertQuery, (err) => {
-        if (err) throw err;
-      });
+
+      if (timeStartADate[b] !== '' && timeFinishADate[b] !== '') {
+        con.query(insertQuery, (err) => {
+          if (err) throw err;
+        });
+      }
     }
   }
   console.log('Pengguna ditemukan');
@@ -241,6 +239,8 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
   for (let i = 0; i < result.length; i++) {
     const dateIndex = date.indexOf(`${result[i].tanggal}`.slice(0, 10));
     listAllScheduleByDate[dateIndex].push(result[i]);
+    console.log(`ini result = ${JSON.stringify(result[i])}`);
+    console.log(`ini list itu = ${JSON.stringify(listAllScheduleByDate[dateIndex])}`);
   }
 
   function convertNumToTime(number) {
@@ -391,8 +391,15 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
     listAllSchedule = [];
   }
 
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST,PATCH,OPTIONS',
+  };
+
   const response = h.response({
     status: 'success',
+    headers,
     message: 'Data berhasil diinput',
   });
   response.code(200);
@@ -401,6 +408,16 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
 
 const getUserByIdRoom = (roomId) => new Promise((resolve, reject) => {
   const selectIdPengguna = `select * from pengguna where id_room = '${roomId}'`;
+  con.query(selectIdPengguna, (err, results) => {
+    if (err) {
+      return reject(err);
+    }
+    return resolve(results);
+  });
+});
+
+const getResultByIdRoom = (roomId) => new Promise((resolve, reject) => {
+  const selectIdPengguna = `select * from hasil where id_room = '${roomId}'`;
   con.query(selectIdPengguna, (err, results) => {
     if (err) {
       return reject(err);
@@ -429,34 +446,46 @@ const getUserByIdHandler = async (request, h) => {
 
 const getHasilById = async (request, h) => {
   const { id } = request.params;
-  const results = await getAllRooms();
-  const task = results[2].filter((hasil) => hasil.id_room === id);
+  const results = await getResultByIdRoom(id);
+  // const task = results[2].filter((hasil) => hasil.id_room === id);
 
   const response = h.response({
     status: 'success',
     message: 'data hasil jadwal berhasil ditampilkan',
     data: {
-      task,
+      results,
     },
   });
   response.code(200);
   return response;
 };
 
-const updateVoting = async (request) => {
-  const { id } = request.params;
-  const idParsed = parseInt(id, 10);
-  let response;
+const getVotingByIdResult = (id) => new Promise((resolve, reject) => {
+  const selectIdPengguna = `select voting from hasil where id_hasil = '${id}'`;
+  con.query(selectIdPengguna, (err, results) => {
+    if (err) {
+      return reject(err);
+    }
+    return resolve(results);
+  });
+});
 
-  const results = await getAllRooms();
-  const index = results[2].findIndex((hasil) => hasil.idHasil === idParsed);
-  if (index !== -1) {
-    const idHasilUpdate = parseInt(results[2][index].idHasil, 10);
-    const updateVotingInDB = results[2][index].voting + 1;
-    const sql = `UPDATE hasil SET voting = ${updateVotingInDB} WHERE idHasil = ${idHasilUpdate}`;
-    con.query(sql);
-    response = 'succes';
-  }
+const updateVoting = async (request, h) => {
+  const { id } = request.params;
+  const voting = await getVotingByIdResult(id);
+  const newVoting = voting[0].voting + 1;
+  const sql = `UPDATE hasil SET voting = ${newVoting} WHERE id_hasil = ${id}`;
+
+  con.query(sql, (err, results) => {
+    if (err) throw err;
+    return results;
+  });
+
+  const response = h.response({
+    status: 'success',
+    message: 'Voting berhasil',
+  });
+  response.code(200);
   return response;
 };
 

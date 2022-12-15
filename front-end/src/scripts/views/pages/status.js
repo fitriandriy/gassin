@@ -37,14 +37,15 @@ const Status = {
           </tr>
           </table>
       </div>
-      <div id="resultButton"></div>
+      <div id="seeResult">
+        <button id="buttonSeeResult">SEE RESULT</button>
+      </div>
     `;
   },
+
   async afterRender() {
     const url = UrlParser.parseActiveUrlWithoutCombiner();
     const room = await FavoriteMovieIdb.getMovie(parseInt(url.id, 10));
-    console.log(`respond ${room.id_room}`);
-
     const roomIdContainer2 = document.getElementById('room-id2');
     const usernameContainer2 = document.getElementById('username2');
     const eventDescriptionContainer2 = document.getElementById('event-description2');
@@ -53,47 +54,6 @@ const Status = {
     usernameContainer2.innerText = `Username: ${room.nama_pengguna}`;
     eventDescriptionContainer2.innerText = `${room.nama_room}`;
 
-    const lamanButton = document.getElementById('laman');
-    const cekDetail = JSON.parse(localStorage.getItem('detail'));
-    const cekStatus = JSON.parse(localStorage.getItem('status'));
-    const cekResult = JSON.parse(localStorage.getItem('result'));
-
-    if (cekDetail === null) {
-      console.log('detail localstorage null');
-    } else if (cekDetail.includes(room.nama_pengguna)) {
-      lamanButton.innerHTML = `
-        <p>
-          <a href="http://localhost:9009/#/detail/${url.id}">detail</a> >
-          <span><a href="http://localhost:9009/#/status/${url.id}">status</a></span>
-        </p>
-      `;
-    }
-
-    if (cekStatus === null) {
-      console.log('status localstorage null');
-    } else if (cekStatus.includes(room.nama_pengguna)) {
-      lamanButton.innerHTML = `
-        <p>
-          <a href="http://localhost:9009/#/detail/${url.id}">detail</a> >
-          <span><a href="http://localhost:9009/#/status/${url.id}">status</a></span> >
-          <a href="http://localhost:9009/#/result/${url.id}">result</a>
-        </p>
-      `;
-    }
-
-    if (cekResult === null) {
-      console.log('voting localstorage null');
-    } else if (cekResult.includes(room.nama_pengguna)) {
-      lamanButton.innerHTML = `
-        <p>
-          <a href="http://localhost:9009/#/detail/${url.id}">detail</a> >
-          <span><a href="http://localhost:9009/#/status/${url.id}">status</a></span> >
-          <a href="http://localhost:9009/#/result/${url.id}">result</a> > 
-          <a href="http://localhost:9009/#/voting/${url.id}">voting</a>
-        </p>
-      `;
-    }
-
     const options = {
       method: 'GET',
     };
@@ -101,51 +61,48 @@ const Status = {
     const response = await fetch(`${API_ENDPOINT.DETAIL_USER(room.id_room)}`, options);
     const responseJson = await response.json();
     const responseJsonArray = responseJson.data.result;
-    console.log(`hasil ${JSON.stringify(responseJson.data.result)}`);
     const userStatus = document.getElementById('status_table');
+    const seeResultButton = document.getElementById('buttonSeeResult');
+    let peranUser;
     const voting = [];
-    responseJsonArray.forEach((restaurant) => {
-      userStatus.innerHTML += createUserStatusTemplate(restaurant);
-      console.log(`respond ${restaurant}`);
-      voting.push(restaurant.status);
+
+    responseJsonArray.forEach((user) => {
+      userStatus.innerHTML += createUserStatusTemplate(user);
+      voting.push(user.status);
+
+      if (user.nama === room.nama_pengguna) {
+        peranUser = user.peran;
+      }
     });
 
-    const resultButton = document.getElementById('resultButton');
-    if (!voting.includes(0)) {
-      resultButton.innerHTML += '<button id="seeResult-button">SEE RESULT</button>';
-      resultButton.addEventListener('click', () => {
+    const postDataResult = async (event) => {
+      const option = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      const responses = await fetch(`${API_ENDPOINT.RESULT(room.id_room)}`, option);
+      const responseJsons = await responses.json();
+      if (responseJsons.status === 'success') {
+        if (confirm('Data berhasil dimuat.') === true) {
+          window.location.assign(`http://localhost:9009/#/result/${url.id}`);
+        }
+      }
+      event.preventDefault();
+    };
+
+    if (peranUser === 'host') {
+      seeResultButton.addEventListener('click', () => {
+        if (confirm('Apakah anda yakin ingin menutup room dan melihat hasil?\nPastikan semua partisipan berstatus 1!') === true) {
+          postDataResult();
+          window.location.assign(`http://localhost:9009/#/result/${url.id}`);
+        }
+      });
+    } else {
+      seeResultButton.addEventListener('click', () => {
         window.location.assign(`http://localhost:9009/#/result/${url.id}`);
       });
-
-      const postDataResult = async () => {
-        const option = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-        const responses = await fetch(`${API_ENDPOINT.RESULT(room.id_room)}`, option);
-        const responseJsons = await responses.json();
-        console.log(responseJsons);
-      };
-
-      postDataResult();
-      let users = [];
-      if (users.length === 0) {
-        const localItems = JSON.parse(localStorage.getItem('status'));
-        if (localItems !== null) {
-          users = localItems;
-        } else {
-          users = [];
-          console.log('pengguna kosong');
-        }
-      } else {
-        users = [];
-        console.log('pengguna kosong dua');
-      }
-      users.push(room.nama_pengguna);
-      const userResult = JSON.stringify(users);
-      localStorage.setItem('status', userResult);
     }
   },
 };

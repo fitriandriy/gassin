@@ -1,5 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-unused-vars */
 import UrlParser from '../../routes/url-parser';
 import FavoriteMovieIdb from '../../data/favorite-movie-idb';
 import API_ENDPOINT from '../../globals/api-endpoint';
@@ -102,19 +100,19 @@ const Voting = {
     const options = {
       method: 'GET',
     };
-    const response = await fetch(`${API_ENDPOINT.DETAIL_ROOM(room.id_room)}`, options);
+    const response = await fetch(`${API_ENDPOINT.RESULT(room.id_room)}`, options);
     const responseJson = await response.json();
-    const responseJsonArray = responseJson.data.task;
+    const responseJsonArray = responseJson.data.results;
     const hasilContainer = document.querySelector('#voting_table');
 
     responseJsonArray.forEach((hasil) => {
-      const convertTanggal = hasil.tanggal.slice(0, hasil.tanggal.lastIndexOf('T'));
+      const convertTanggal = hasil.tanggal.slice(0, 10);
       hasilContainer.innerHTML += createVotingTemplate(hasil, convertTanggal);
     });
 
-    setTimeout(() => {
-      location.reload();
-    }, 10 * 1000);
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 10 * 1000);
   },
 };
 

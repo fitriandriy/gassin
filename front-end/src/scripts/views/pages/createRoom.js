@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 import API_ENDPOINT from '../../globals/api-endpoint';
 import FavoriteMovieIdb from '../../data/favorite-movie-idb';
 import {
@@ -58,8 +57,7 @@ const CreateRoom = {
       const numberOfDays = document.getElementById('number-of-days').value;
       if (numberOfDays !== '') {
         roomNameContainer.innerHTML += createRoomNameInputForm();
-        // eslint-disable-next-line no-plusplus
-        for (let i = 1; i <= numberOfDays; i++) {
+        for (let i = 1; i <= numberOfDays; i += 1) {
           inputContainer.innerHTML += createInputForm();
         }
         label.style.visibility = 'visible';
@@ -81,15 +79,11 @@ const CreateRoom = {
       const userName = document.getElementById('user-name').value;
       const daysAndDate = document.querySelectorAll('#days-and-date');
 
-      if (roomsName !== '' & userName !== '' & daysAndDate.value !== '') {
+      if (roomsName !== '' && userName !== '' && daysAndDate.value !== '') {
         const dateValues = [];
         daysAndDate.forEach((date) => {
           dateValues.push(date.value);
         });
-        console.log(`
-        rooms name= ${roomsName}
-        tanggal = ${dateValues}
-        `);
         event.preventDefault();
 
         const room = {
@@ -100,7 +94,6 @@ const CreateRoom = {
         };
 
         try {
-          await FavoriteMovieIdb.addMovie(room);
           const options = {
             method: 'POST',
             headers: {
@@ -111,12 +104,19 @@ const CreateRoom = {
 
           const response = await fetch(`${API_ENDPOINT.ROOM}`, options);
           const responseJson = await response.json();
-          showResponseMessage(responseJson.message);
+          if (responseJson.status === 'success') {
+            await FavoriteMovieIdb.addMovie(room);
+            if (confirm('Room berhasil dibuat') === true) {
+              window.location.assign('http://localhost:9009/#/rooms');
+            }
+          } else {
+            alert(responseJson.status);
+          }
         } catch (error) {
           showResponseMessage(error);
         }
       } else {
-        alert('Isi dulu data dengan sesuai');
+        alert('Isi data dengan sesuai!');
       }
     };
     createButton.addEventListener('click', insertBook);

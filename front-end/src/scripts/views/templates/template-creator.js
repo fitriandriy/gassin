@@ -29,9 +29,30 @@ const createRoomDetailTemplate = (date) => `
         <input type="time" id="finishTimeOnDate${date.slice(0, 10)}" required>
       </div>
     </div>
-    <div class="addButton">
-        <button id="add-button" type="submit">tambah</button>
+    <div class="time-inputs">
+      <div class="start-to-finish">
+        <input type="time" id="startTimeOnDate${date.slice(0, 10)}" required>
+        <input type="time" id="finishTimeOnDate${date.slice(0, 10)}" required>
       </div>
+    </div>
+    <div class="time-inputs">
+      <div class="start-to-finish">
+        <input type="time" id="startTimeOnDate${date.slice(0, 10)}" required>
+        <input type="time" id="finishTimeOnDate${date.slice(0, 10)}" required>
+      </div>
+    </div>
+    <div class="time-inputs">
+      <div class="start-to-finish">
+        <input type="time" id="startTimeOnDate${date.slice(0, 10)}" required>
+        <input type="time" id="finishTimeOnDate${date.slice(0, 10)}" required>
+      </div>
+    </div>
+    <div class="time-inputs">
+      <div class="start-to-finish">
+        <input type="time" id="startTimeOnDate${date.slice(0, 10)}" required>
+        <input type="time" id="finishTimeOnDate${date.slice(0, 10)}" required>
+      </div>
+    </div>
   </form>
 `;
 
@@ -62,51 +83,19 @@ const createResultTemplate = (result) => `
 
 const createResultTemplateHour = (result) => `
   <div class="hour">
-    <input id="${result.idHasil}" type="checkbox">
-    <div><p>${result.jamMulai}</p></div>
-    <div><p>${result.jamBerakhir}</p></div>
+    <input id="${result.id_hasil}" type="checkbox">
+    <div><p>${result.jam_mulai}</p></div>
+    <div><p>${result.jam_selesai}</p></div>
   </div>
 `;
 
 const createVotingTemplate = (result, tanggal) => `
   <tr>
     <td>${tanggal}</td>
-    <td>${result.jamMulai}</td>
-    <td>${result.jamBerakhir}</td>
+    <td>${result.jam_mulai}</td>
+    <td>${result.jam_selesai}</td>
     <td>${result.voting}</td>
   </tr>
-`;
-
-const createMovieDetailTemplate = (movie) => `
-  <h2 class="movie__title">${movie.title}</h2>
-  <img class="movie__poster" src="${CONFIG.BASE_IMAGE_URL + movie.poster_path}" alt="${movie.title}" />
-  <div class="movie__info">
-  <h3>Information</h3>
-    <h4>Tagline</h4>
-    <p>${movie.tagline}</p>
-    <h4>Release Date</h4>
-    <p>${movie.release_date}</p>
-    <h4>Duration</h4>
-    <p>${movie.runtime} minutes</p>
-    <h4>Rating</h4>
-    <p>${movie.vote_average}</p>
-  </div>
-  <div class="movie__overview">
-    <h3>Overview</h3>
-    <p>${movie.overview}</p>
-  </div>
-`;
-
-const createLikeButtonTemplate = () => `
-  <button aria-label="like this movie" id="likeButton" class="like">
-    <i class="fa fa-heart-o" aria-hidden="true"></i>
-  </button>
-`;
-
-const createLikedButtonTemplate = () => `
-  <button aria-label="unlike this movie" id="likeButton" class="like">
-    <i class="fa fa-heart" aria-hidden="true"></i>
-  </button>
 `;
 
 const createMovieItemTemplate = (movie, page) => `
@@ -128,9 +117,6 @@ export {
   createRoomDetailTemplate,
   createRoomDetailHourTemplate,
   createMovieItemTemplate,
-  createMovieDetailTemplate,
-  createLikeButtonTemplate,
-  createLikedButtonTemplate,
   createUserStatusTemplate,
   createResultTemplate,
   createResultTemplateHour,

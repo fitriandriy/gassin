@@ -1,14 +1,11 @@
-/* eslint-disable no-bitwise */
-/* eslint-disable valid-typeof */
 import UrlParser from '../../routes/url-parser';
 import FavoriteMovieIdb from '../../data/favorite-movie-idb';
 import API_ENDPOINT from '../../globals/api-endpoint';
-import { createRoomDetailTemplate, createRoomDetailHourTemplate } from '../templates/template-creator';
+import { createRoomDetailTemplate } from '../templates/template-creator';
 
 const Detail = {
   async render() {
     return `
-    <div id="laman"></div>
     <div class="detile-room">
       <div class="command-sign">
         <div id="command-sign-text">
@@ -39,7 +36,6 @@ const Detail = {
     const url = UrlParser.parseActiveUrlWithoutCombiner();
     const room = await FavoriteMovieIdb.getMovie(parseInt(url.id, 10));
     const inputFormContainer = document.getElementById('input-form');
-    // movieContainer.innerHTML = createRoomDetailTemplate(room);
 
     const roomIdContainer = document.getElementById('room-id');
     const usernameContainer = document.getElementById('username');
@@ -51,13 +47,6 @@ const Detail = {
 
     room.hari_dan_tanggal.forEach((date) => {
       inputFormContainer.innerHTML += createRoomDetailTemplate(date);
-      const timeInput = document.querySelector('.time-inputs');
-      const addButton = document.getElementById('add-button');
-
-      addButton.addEventListener('click', (event) => {
-        timeInput.innerHTML += createRoomDetailHourTemplate(date);
-        event.preventDefault();
-      });
     });
 
     const postDataSchedule = async (roomId, nama, jamMulai, jamSelesai) => {
@@ -78,60 +67,23 @@ const Detail = {
 
       const response = await fetch(`${API_ENDPOINT.SCHEDULE}`, options);
       const responseJson = await response.json();
-      console.log(responseJson);
+      if (responseJson.status === 'success') {
+        if (confirm('Berhasil input jadwal!') === true) {
+          window.location.assign(`http://localhost:9009/#/status/${url.id}`);
+        }
+      } else {
+        alert(responseJson.status);
+      }
     };
 
     const timeStart = [];
     const timeFinish = [];
     const submitButton = document.getElementById('submit-button');
-    const elements = document.querySelector('.detile-room');
-
-    const lamanButton = document.getElementById('laman');
-    const cekDetail = JSON.parse(localStorage.getItem('detail'));
-    const cekStatus = JSON.parse(localStorage.getItem('status'));
-    const cekResult = JSON.parse(localStorage.getItem('result'));
-
-    if (cekDetail === null) {
-      console.log('detail localstorage null');
-    } else if (cekDetail.includes(room.nama_pengguna)) {
-      lamanButton.innerHTML = `
-        <p>
-          <span><a href="http://localhost:9009/#/detail/${url.id}">detail</a></span> >
-          <a href="http://localhost:9009/#/status/${url.id}">status</a>
-        </p>
-      `;
-      elements.removeChild(submitButton);
-    }
-
-    if (cekStatus === null) {
-      console.log('status localstorage null');
-    } else if (cekStatus.includes(room.nama_pengguna)) {
-      lamanButton.innerHTML = `
-        <p>
-          <span><a href="http://localhost:9009/#/detail/${url.id}">detail</a></span> >
-          <a href="http://localhost:9009/#/status/${url.id}">status</a> >
-          <a href="http://localhost:9009/#/result/${url.id}">result</a>
-        </p>
-      `;
-    }
-
-    if (cekResult === null) {
-      console.log('voting localstorage null');
-    } else if (cekResult.includes(room.nama_pengguna)) {
-      lamanButton.innerHTML = `
-        <p>
-          <span><a href="http://localhost:9009/#/detail/${url.id}">detail</a></span> >
-          <a href="http://localhost:9009/#/status/${url.id}">status</a> >
-          <a href="http://localhost:9009/#/result/${url.id}">result</a> > 
-          <a href="http://localhost:9009/#/voting/${url.id}">voting</a>
-        </p>
-      `;
-    }
 
     const insertSchedule = (event) => {
       room.hari_dan_tanggal.forEach((date) => {
-        const timeStartValue = document.querySelectorAll(`#startTimeOnDate${date}`);
-        const timeFinishValue = document.querySelectorAll(`#finishTimeOnDate${date}`);
+        const timeStartValue = document.querySelectorAll(`#startTimeOnDate${date.slice(0, 10)}`);
+        const timeFinishValue = document.querySelectorAll(`#finishTimeOnDate${date.slice(0, 10)}`);
         const timeStartOnEachDate = {
           timeStart: [],
         };
@@ -160,36 +112,81 @@ const Detail = {
         timeFinish,
       );
 
-      console.log(timeStart);
-      console.log(timeFinish);
       event.preventDefault();
     };
+
+    // const elements = document.querySelector('.detile-room');
+    // const lamanButton = document.getElementById('laman');
+    // const cekDetail = JSON.parse(localStorage.getItem('detail'));
+    // const cekStatus = JSON.parse(localStorage.getItem('status'));
+    // const cekResult = JSON.parse(localStorage.getItem('result'));
+
+    // if (cekDetail === null) {
+    //   console.log('detail localstorage null');
+    // } else if (cekDetail.includes(room.nama_pengguna)) {
+    //   lamanButton.innerHTML = `
+    //         <p>
+    //           <span><a href="http://localhost:9009/#/detail/${url.id}">detail</a></span> >
+    //           <a href="http://localhost:9009/#/status/${url.id}">status</a>
+    //         </p>
+    //       `;
+    //   elements.removeChild(submitButton);
+    // }
+
+    // if (cekStatus === null) {
+    //   console.log('status localstorage null');
+    // } else if (cekStatus.includes(room.nama_pengguna)) {
+    //   lamanButton.innerHTML = `
+    //     <p>
+    //       <span><a href="http://localhost:9009/#/detail/${url.id}">detail</a></span> >
+    //       <a href="http://localhost:9009/#/status/${url.id}">status</a> >
+    //       <a href="http://localhost:9009/#/result/${url.id}">result</a>
+    //     </p>
+    //   `;
+    // }
+
+    // if (cekResult === null) {
+    //   console.log('voting localstorage null');
+    // } else if (cekResult.includes(room.nama_pengguna)) {
+    //   lamanButton.innerHTML = `
+    //     <p>
+    //       <span><a href="http://localhost:9009/#/detail/${url.id}">detail</a></span> >
+    //       <a href="http://localhost:9009/#/status/${url.id}">status</a> >
+    //       <a href="http://localhost:9009/#/result/${url.id}">result</a> >
+    //       <a href="http://localhost:9009/#/voting/${url.id}">voting</a>
+    //     </p>
+    //   `;
+    // }
+
+    // submitButton.addEventListener('click', insertSchedule);
     submitButton.addEventListener('click', () => {
-      const inputJadwal = document.querySelector('.start-to-finish input').value;
-      if (inputJadwal !== '') {
-        let users = [];
-        if (users.length === 0) {
-          const localItems = JSON.parse(localStorage.getItem('detail'));
-          if (localItems !== null) {
-            users = localItems;
-          } else {
-            users = [];
-            console.log('pengguna kosong');
-          }
-        } else {
-          users = [];
-          console.log('pengguna kosong dua');
-        }
-        users.push(room.nama_pengguna);
-        const userResult = JSON.stringify(users);
-        localStorage.setItem('detail', userResult);
-        window.location.assign(`http://localhost:9009/#/status/${url.id}`);
-        insertSchedule();
-      } else {
-        alert('isi jadwalmu dengan sesuai!!!');
-      }
+      insertSchedule();
+      // const inputJadwal = document.querySelector('.start-to-finish input').value;
+      // if (inputJadwal !== '') {
+      //   let users = [];
+      //   if (users.length === 0) {
+      //     const localItems = JSON.parse(localStorage.getItem('detail'));
+      //     if (localItems !== null) {
+      //       users = localItems;
+      //     } else {
+      //       users = [];
+      //       console.log('pengguna kosong');
+      //     }
+      //   } else {
+      //     users = [];
+      //     console.log('pengguna kosong dua');
+      //   }
+      //   users.push(room.nama_pengguna);
+      //   const userResult = JSON.stringify(users);
+      //   localStorage.setItem('detail', userResult);
+      //   insertSchedule();
+      // } else {
+      //   alert('isi jadwalmu dengan sesuai!!!');
+      // }
     });
   },
 };
+
+// MBAK FIRA
 
 export default Detail;

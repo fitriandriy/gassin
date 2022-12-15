@@ -1,11 +1,6 @@
-/* eslint-disable eqeqeq */
 /* eslint-disable camelcase */
-/* eslint-disable no-undef */
-// import TheMovieDbSource from '../../data/themoviedb-source';
 import FavoriteMovieIdb from '../../data/favorite-movie-idb';
 import API_ENDPOINT from '../../globals/api-endpoint';
-// import { createMovieItemTemplate } from '../templates/template-creator';
-// import { async } from 'regenerator-runtime';
 
 const Homepage = {
   async render() {
@@ -16,7 +11,7 @@ const Homepage = {
                     <h2>Find a <span>Time</span> for your Meetings</h2>
                 </div>
                 <div class="room">
-                  <form action="" class="join-room">
+                  <form>
                     <div class="inputUser">
                       <input type="" name="" id="join-code" placeholder="enter your join code" minlength="15" maxlength="16" required>
                       <p id="validationCode"></p>
@@ -72,7 +67,6 @@ const Homepage = {
   async afterRender() {
     const joinButton = document.getElementById('join-button');
     const joinCodeInput = document.getElementById('join-code');
-    // const usernameInput = document.getElementById('username');
     const validationCode = document.getElementById('validationCode');
     joinCodeInput.addEventListener('input', () => {
       if (joinCodeInput.value.length < 5) {
@@ -90,7 +84,6 @@ const Homepage = {
         hari_dan_tanggal: dateValues,
       };
 
-      await FavoriteMovieIdb.addMovie(room);
       const options = {
         method: 'POST',
         headers: {
@@ -101,10 +94,17 @@ const Homepage = {
 
       const response = await fetch(`${API_ENDPOINT.USER}`, options);
       const responseJson = await response.json();
-      console.log(responseJson);
+      if (responseJson.status === 'success') {
+        await FavoriteMovieIdb.addMovie(room);
+        if (confirm('Join success!') === true) {
+          window.location.assign('http://localhost:9009/#/rooms');
+        }
+      } else {
+        alert(responseJson.status);
+      }
     };
 
-    const insertBook = async (event) => {
+    const insertBook = async () => {
       const joinCode = document.getElementById('join-code').value;
       const username = document.getElementById('username').value;
 
@@ -114,20 +114,22 @@ const Homepage = {
       const response = await fetch(`${API_ENDPOINT.ROOM}`, options);
       const responseJson = await response.json();
 
-      console.log(responseJson);
-      console.log(`Ini room: ${typeof (responseJson)}`);
       const pilihanHari = [];
       const { room, pilihan_hari } = responseJson.data;
       const roomId = [];
 
       room.forEach((roomItem) => {
-        if (roomItem.id_room == joinCode) {
-          console.log(`ID ROOM: ${roomItem.id_room}`);
+        if (roomItem.id_room === joinCode) {
           roomId.push(roomItem.id_room);
 
-          pilihan_hari.forEach((day) => {
-            if (day.id_room == joinCode) {
-              pilihanHari.push(day.hari_dan_tanggal);
+          pilihan_hari.forEach((hari) => {
+            if (hari.id_room === joinCode) {
+              const dateObj = new Date(`${hari.hari_dan_tanggal}`);
+              const month = dateObj.getUTCMonth() + 1; // months from 1-12
+              const day = dateObj.getUTCDate() + 1;
+              const year = dateObj.getUTCFullYear();
+              const newdate = `${year}-${month}-${day}`;
+              pilihanHari.push(newdate);
             }
           });
 
@@ -137,14 +139,14 @@ const Homepage = {
             roomItem.nama_room,
             pilihanHari,
           );
-          console.log(`GATAU: ${roomId[0]}`);
         }
       });
-      event.prevenDefault();
-      window.location.assign('http://localhost:9009/#/like');
     };
 
-    joinButton.addEventListener('click', insertBook);
+    joinButton.addEventListener('click', (event) => {
+      insertBook();
+      event.preventDefault();
+    });
   },
 };
 

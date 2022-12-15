@@ -39,7 +39,7 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/room/{id}',
+    path: '/room/{id}/result',
     handler: getHasilById,
   },
   {
@@ -49,7 +49,7 @@ const routes = [
   },
   {
     method: 'PUT',
-    path: '/room/{id}',
+    path: '/result/{id}',
     handler: updateVoting,
   },
   {

@@ -97,9 +97,9 @@ const Result = {
     const options = {
       method: 'GET',
     };
-    const response = await fetch(`${API_ENDPOINT.DETAIL_ROOM(room.id_room)}`, options);
+    const response = await fetch(`${API_ENDPOINT.RESULT(room.id_room)}`, options);
     const responseJson = await response.json();
-    const responseJsonArray = responseJson.data.task;
+    const responseJsonArray = responseJson.data.results;
     const hasilContainer = document.querySelector('#result');
 
     const tanggal = [];
@@ -108,31 +108,30 @@ const Result = {
         tanggal.push(hasil.tanggal);
       }
     });
+    console.log(`tanggal ${JSON.stringify(tanggal)}`);
+
     const data = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < tanggal.length; i++) {
+    for (let i = 0; i < tanggal.length; i += 1) {
       const hourArray = [];
       // eslint-disable-next-line no-loop-func
       responseJsonArray.forEach((hasil) => {
         if (tanggal[i] === hasil.tanggal) {
           const objectHour = {
-            jamMulai: hasil.jamMulai,
-            jamBerakhir: hasil.jamBerakhir,
-            idHasil: hasil.idHasil,
+            jam_mulai: hasil.jam_mulai,
+            jam_selesai: hasil.jam_selesai,
+            id_hasil: hasil.id_hasil,
           };
           hourArray.push(objectHour);
         }
       });
       data.push(hourArray);
     }
+    console.log(`data= ${JSON.stringify(data)}`);
 
-    // eslint-disable-next-line no-plusplus
-    for (let j = 0; j < tanggal.length; j++) {
+    for (let j = 0; j < tanggal.length; j += 1) {
       hasilContainer.innerHTML += createResultTemplate(tanggal[j]);
       const hour = document.querySelector('.schedule:last-child .hours');
-      // const newhour = hour.textContent;
-      // eslint-disable-next-line no-plusplus
-      for (let z = 0; z < data[j].length; z++) {
+      for (let z = 0; z < data[j].length; z += 1) {
         hour.innerHTML += createResultTemplateHour(data[j][z]);
       }
     }
@@ -157,11 +156,11 @@ const Result = {
       localStorage.setItem('result', userResult);
 
       responseJsonArray.forEach((hasil) => {
-        const buttonCheck = document.getElementById(`${hasil.idHasil}`).checked;
+        const buttonCheck = document.getElementById(`${hasil.id_hasil}`).checked;
         if (buttonCheck) {
           console.log('test');
           const userAction = async () => {
-            const response = await fetch(`${API_ENDPOINT.UPDATE_VOTING(hasil.idHasil)}`, {
+            const response = await fetch(`${API_ENDPOINT.UPDATE_VOTING(hasil.id_hasil)}`, {
               method: 'PUT',
               headers: {
                 Accept: 'application/json',
