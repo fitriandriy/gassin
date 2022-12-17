@@ -152,7 +152,8 @@ main {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* number of lines to show */
+  -webkit-line-clamp: 4;
+  /* number of lines to show */
   -webkit-box-orient: vertical;
 }
 
@@ -209,11 +210,11 @@ main {
   background-color: #DB0000;
   border: 1px solid #770000;
   border-radius: 4px;
- 
+
   font-weight: 500;
   font-size: 16px;
   color: #ffffff;
- 
+
   cursor: pointer;
   transition: .15s ease-in-out;
 }
@@ -268,7 +269,8 @@ main {
   margin-right: 10px;
 }
 
-form button, #submit-button {
+form button,
+#submit-button {
   height: 35px;
   width: 125px;
   border-radius: 30px;
@@ -287,7 +289,8 @@ form input {
   margin-bottom: 15px;
 }
 
-#room-info #label, #input-form #create-button {
+#room-info #label,
+#input-form #create-button {
   visibility: hidden;
 }
 
@@ -301,7 +304,8 @@ form input {
   justify-content: space-between;
 }
 
-.day-options #room-info #input-form, .day-options #room-info #input-form #date-form-container {
+.day-options #room-info #input-form,
+.day-options #room-info #input-form #date-form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -363,4 +367,50 @@ form #description {
 
 .detile-room #submit-button {
   margin: 20px 0 0 46.5%;
+}
+
+/* DETAIL-STATUS */
+.user_status>table {
+  background-color: aqua;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user_status>#status_table>tbody,
+th,
+td {
+  border: 1px solid rgb(49, 52, 49);
+  width: 100%;
+}
+
+/* DETAIL-RESULT */
+.schedule h5 {
+  text-align: center;
+  background-color: #2B62E0;
+  border-radius: 10px;
+  color: white;
+  padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.hour-title {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.hour {
+  display: flex;
+}
+
+.hour p {
+  padding: 8px;
+  border-radius: 10px;
+  border-width: 1px;
+  margin-top: 5px;
+  margin-right: 5px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.20) 0px 5px 15px;
 }
