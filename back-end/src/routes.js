@@ -7,6 +7,7 @@ const {
   getRoomHandler,
   getHasilById,
   updateVoting,
+  updatePeran,
   postUserScheduleByIdRoomHandler,
   getUserHandler,
 } = require('./handler');
@@ -49,12 +50,17 @@ const routes = [
   },
   {
     method: 'PUT',
+    path: '/user/{id}',
+    handler: updatePeran,
+  },
+  {
+    method: 'PUT',
     path: '/result/{id}',
     handler: updateVoting,
   },
   {
     method: 'POST',
-    path: '/room/{id}/schedule',
+    path: '/room/{id}/result',
     handler: postUserScheduleByIdRoomHandler,
   },
 ];

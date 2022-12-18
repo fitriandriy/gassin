@@ -64,6 +64,7 @@ const Status = {
     const userStatus = document.getElementById('status_table');
     const seeResultButton = document.getElementById('buttonSeeResult');
     let peranUser;
+    let idUser;
     const voting = [];
 
     responseJsonArray.forEach((user) => {
@@ -72,8 +73,21 @@ const Status = {
 
       if (user.nama === room.nama_pengguna) {
         peranUser = user.peran;
+        idUser = user.id_pengguna;
       }
     });
+
+    const updatePeran = async () => {
+      const option = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      const responses = await fetch(`${API_ENDPOINT.DETAIL_USER(idUser)}`, option);
+      const responseJsons = await responses.json();
+      console.log(responseJsons);
+    };
 
     const postDataResult = async (event) => {
       const option = {
@@ -85,6 +99,7 @@ const Status = {
       const responses = await fetch(`${API_ENDPOINT.RESULT(room.id_room)}`, option);
       const responseJsons = await responses.json();
       if (responseJsons.status === 'success') {
+        updatePeran();
         if (confirm('Data berhasil dimuat.') === true) {
           window.location.assign(`http://localhost:9009/#/result/${url.id}`);
         }

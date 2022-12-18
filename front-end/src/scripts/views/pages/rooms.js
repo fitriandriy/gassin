@@ -1,5 +1,7 @@
+/* eslint-disable no-multiple-empty-lines */
 import FavoriteMovieIdb from '../../data/favorite-movie-idb';
-import { createMovieItemTemplate } from '../templates/template-creator';
+import API_ENDPOINT from '../../globals/api-endpoint';
+import { createRoomItemTemplate } from '../templates/template-creator';
 
 const Rooms = {
   async render() {
@@ -15,33 +17,27 @@ const Rooms = {
   async afterRender() {
     const movies = await FavoriteMovieIdb.getAllMovies();
     const moviesContainer = document.querySelector('#movies');
+    console.log(movies);
+    const status = [];
 
-    movies.forEach((movie) => {
-      // const page = 'result';
-      const usersDetail = JSON.parse(localStorage.getItem('detail'));
-      const userStatus = JSON.parse(localStorage.getItem('status'));
-      const userResult = JSON.parse(localStorage.getItem('result'));
-      let page;
-      if (usersDetail === null) {
-        page = 'detail';
-      } else if (usersDetail.includes(movie.nama_pengguna)) {
-        if (userStatus === null) {
-          page = 'status';
-        } else if (userStatus.includes(movie.nama_pengguna)) {
-          if (userResult === null) {
-            page = 'result';
-          } else if (userResult.includes(movie.nama_pengguna)) {
-            page = 'voting';
-          } else {
-            page = 'result';
+    movies.forEach(async (movie) => {
+      const options = {
+        method: 'GET',
+      };
+      const response = await fetch(`${API_ENDPOINT.DETAIL_USER(movie.id_room)}`, options);
+      const responseJson = await response.json();
+      const responseJsonArray = responseJson.data.result;
+      responseJsonArray.forEach((user) => {
+        if (user.nama === movie.nama_pengguna) {
+          status.push(user.status);
+          if (user.status === 1) {
+            moviesContainer.innerHTML += createRoomItemTemplate(movie, 'status');
+          } else if (user.status === 0) {
+            moviesContainer.innerHTML += createRoomItemTemplate(movie, 'detail');
           }
-        } else {
-          page = 'status';
+          console.log(`STATUS = ${status}`);
         }
-      } else {
-        page = 'detail';
-      }
-      moviesContainer.innerHTML += createMovieItemTemplate(movie, page);
+      });
     });
   },
 };

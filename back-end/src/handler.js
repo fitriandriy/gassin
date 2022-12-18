@@ -117,11 +117,6 @@ const addScheduleByIdHandler = async (request, h) => {
   } = request.payload;
 
   const userId = await getUserId(nama, roomId);
-  console.log(`
-  nama: ${nama}
-  roomId: ${roomId}
-  userId: ${userId[0].id_pengguna}
-  `);
   const response = h.response({
     status: 'success',
     message: 'Input data berhasil',
@@ -141,8 +136,6 @@ const addScheduleByIdHandler = async (request, h) => {
   for (let i = 0; i < jamMulai.length; i++) {
     const timeStartADate = jamMulai[i].timeStart;
     const timeFinishADate = jamSelesai[i].timeFinish;
-    console.log(`Finish: ${timeFinishADate}`);
-    console.log(`Start: ${timeStartADate}`);
 
     for (let b = 0; b < timeStartADate.length; b++) {
       const insertQuery = `INSERT INTO jadwal_pengguna (id_pengguna, tanggal, jam_mulai, jam_selesai)
@@ -239,8 +232,6 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
   for (let i = 0; i < result.length; i++) {
     const dateIndex = date.indexOf(`${result[i].tanggal}`.slice(0, 10));
     listAllScheduleByDate[dateIndex].push(result[i]);
-    console.log(`ini result = ${JSON.stringify(result[i])}`);
-    console.log(`ini list itu = ${JSON.stringify(listAllScheduleByDate[dateIndex])}`);
   }
 
   function convertNumToTime(number) {
@@ -369,7 +360,6 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
     const year = dateObj.getUTCFullYear();
 
     const newdate = `${year}-${month}-${day}`;
-    console.log(newdate);
 
     for (let z = 0; z < freeTimeADate.length; z += 2) {
       const insertQuery = `INSERT INTO hasil (id_room, tanggal, jam_mulai, jam_selesai, voting)
@@ -379,7 +369,6 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
       });
     }
 
-    console.log(`freetime tiap tanggal = ${freeTimeADate}`);
     if (freeTimeADate.length == 0) {
       const response = h.response({
         status: 'success',
@@ -391,15 +380,8 @@ const postUserScheduleByIdRoomHandler = async (request, h) => {
     listAllSchedule = [];
   }
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST,PATCH,OPTIONS',
-  };
-
   const response = h.response({
     status: 'success',
-    headers,
     message: 'Data berhasil diinput',
   });
   response.code(200);
@@ -430,9 +412,6 @@ const getUserByIdHandler = async (request, h) => {
   const { id } = request.params;
   const result = await getUserByIdRoom(id);
 
-  // const userId = await getAllRooms();
-  // const task = userId[3].filter((hasil) => hasil.id_room === id);
-
   const response = h.response({
     status: 'success',
     message: 'data pengguna berhasil ditampilkan',
@@ -447,8 +426,6 @@ const getUserByIdHandler = async (request, h) => {
 const getHasilById = async (request, h) => {
   const { id } = request.params;
   const results = await getResultByIdRoom(id);
-  // const task = results[2].filter((hasil) => hasil.id_room === id);
-
   const response = h.response({
     status: 'success',
     message: 'data hasil jadwal berhasil ditampilkan',
@@ -489,8 +466,26 @@ const updateVoting = async (request, h) => {
   return response;
 };
 
+const updatePeran = async (request, h) => {
+  const { id } = request.params;
+  const sql = `UPDATE pengguna SET peran = 'entrant' WHERE id_pengguna = ${id}`;
+
+  con.query(sql, (err, results) => {
+    if (err) throw err;
+    return results;
+  });
+
+  const response = h.response({
+    status: 'success',
+    message: 'Peran berhasil diupdate',
+  });
+  response.code(200);
+  return response;
+};
+
 module.exports = {
   getUserByIdHandler,
+  updatePeran,
   updateVoting,
   getHasilById,
   getUserHandler,

@@ -98,7 +98,7 @@ const createVotingTemplate = (result, tanggal) => `
   </tr>
 `;
 
-const createMovieItemTemplate = (movie, page) => `
+const createRoomItemTemplate = (movie, page) => `
   <div class="movie-item">
     <div class="movie-item__header">
       <img class="movie-item__header__poster" alt="${movie.nama_room}"
@@ -116,7 +116,7 @@ export {
   createInputForm,
   createRoomDetailTemplate,
   createRoomDetailHourTemplate,
-  createMovieItemTemplate,
+  createRoomItemTemplate,
   createUserStatusTemplate,
   createResultTemplate,
   createResultTemplateHour,

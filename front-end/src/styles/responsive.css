@@ -1,3 +1,349 @@
+@media  screen and (max-width: 426px) {
+  form input {
+    height: 34px;
+    width: 200px;
+    border: 1px solid rgb(247, 247, 247);
+    border-radius: 27px;
+    box-shadow: rgb(50 50 93 / 25%) 0px 2px 5px -1px, rgb(0 0 0 / 30%) 0px 1px 3px -1px;
+    margin-bottom: 22px;
+    padding: 5px 15px;
+  }
+
+  form #date {
+    height: 35px;
+    width: 255px;
+    margin: 40px 0 20px 0;
+    border-radius: 30px;
+    background-color: rgba(43, 98, 224, 1);
+    border: 1px solid rgba(43, 98, 224, 1);
+    color: white;
+    box-shadow: 0 5px 10px grey;
+}
+
+#input-form {
+  display: inline;
+  grid-template-columns: 400px 400px 400px;
+  text-align: center;
+}
+
+  .text-home h2 {
+    font-size: 45px;
+    padding-bottom: 20px;
+    margin-left: -26px;
+  }
+
+  .join-room {
+    display: flex;
+    flex-direction: column;
+    margin-top: 4px;
+    margin-left: -28px;
+  }
+
+  .app-bar .app-bar__navigation ul li a {
+    display: none
+  }
+  .card {
+    text-align: center;
+    background-color: #EBECF0;
+    padding: 22px;
+    margin-left: 47px;
+    margin-right: 40px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    transition: ease-in all 0.5s;
+    max-width: 155px;
+  }
+  .content-home {
+    padding-left: 55px;
+    padding-right: 50px;
+}
+.command-sign #command-sign-icon {
+  display: none;
+}
+
+.command-sign {
+  display: inline;
+}
+
+.command-sign #command-sign-text {
+  font-size: 14px;
+  padding-top: 0px;
+}
+
+.day-options {
+  display: inline;
+}
+
+input#user-name {
+  margin-top: 55px;
+  width: 120px;
+  margin-left: -82px;
+}
+
+input#rooms-name {
+  width: 120px;
+  margin-left: -82px;
+}
+
+input#days-and-date {
+  width: 120px;
+  margin-left: 55px;
+}
+
+div#label {
+  visibility: visible;
+    margin-top: 45px;
+}
+
+.day-options #room-info #input-form, .day-options #room-info #input-form #date-form-container {
+  display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    align-items: flex-end;
+    margin-left: -29px;
+}
+
+form button, #submit-button, #enter-button {
+  height: 45px; 
+  margin-right: 20px;
+}
+
+form button, #submit-button, #create-button {
+  height: 45px;
+  margin-right: -4px; 
+
+}
+}
+
+@media screen and (min-width: 375px) {
+  .card {
+    text-align: center;
+    background-color: #EBECF0;
+    padding: 80px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    transition: ease-in all 0.5s;
+    max-width: 200px;
+  }
+
+  .command-sign #room-description {
+    display: flex;
+    margin-top: 50px;
+    margin-left: 30px;
+    align-items: center;
+}
+
+form #date {
+  height: 35px;
+  width: 255px;
+  margin: 40px 0 20px 27px;
+  border-radius: 30px;
+  background-color: rgba(43, 98, 224, 1);
+  border: 1px solid rgba(43, 98, 224, 1);
+  color: white;
+  box-shadow: 0 5px 10px grey;
+}
+}
+
+@media screen and (min-width: 425px) {
+  form input {
+    height: 34px;
+    width: 255px;
+    border: 1px solid rgb(247, 247, 247);
+    border-radius: 27px;
+    box-shadow: rgb(50 50 93 / 25%) 0px 2px 5px -1px, rgb(0 0 0 / 30%) 0px 1px 3px -1px;
+    margin-bottom: 22px;
+    padding: 5px 15px;
+  }
+
+  .day-options #room-info #input-form, .day-options #room-info #input-form #date-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #room-info #label #rooms-name-label {
+    margin-right: 80px;
+    padding-bottom: 46px;
+  }
+
+  #input-form #rooms-name-container #user-name {
+    margin-top: 37px;
+    width: 180px;
+    margin-right: -44px;
+  }
+
+  #input-form #rooms-name-container #rooms-name {
+    width: 180px;
+    margin-right: -44px;
+  }
+
+  #input-form, #date-form-container, #days-and-date {
+    width: 180px;
+  }
+
+  .command-sign #command-sign-text {
+    font-size: 20px;
+  }
+
+  form button, #submit-button, #create-button {
+    height: 45px;
+    margin-right: -26px;
+  }
+
+  .day-options #room-info #input-form, .day-options #room-info #input-form #date-form-container {
+    /* display: flex; */
+    /* flex-direction: column; */
+    align-items: center;
+  }
+  
+  p#event-description {
+    margin-left: 54px;
+  }
+
+  form #date {
+    height: 35px;
+    width: 255px;
+    margin: 40px 0 20px 58px;
+    border-radius: 30px;
+    background-color: rgba(43, 98, 224, 1);
+    border: 1px solid rgba(43, 98, 224, 1);
+    color: white;
+    box-shadow: 0 5px 10px grey;
+} 
+}
+
+@media screen and (min-width: 768px) {
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+    padding: 0%;
+}
+
+#room-description img {
+  width: 80px;
+  margin-left: -64px;
+}
+
+#room-description #event-description {
+  display: flex;
+  align-items: center;
+  padding-right: 60px;
+}
+
+.command-sign #command-sign-text {
+  font-size: 23px;
+  margin-left: -40px;
+}
+
+form input {
+  height: 34px;
+  width: 310px;
+  border: 1px solid rgb(247, 247, 247);
+  border-radius: 27px;
+  box-shadow: rgb(50 50 93 / 25%) 0px 2px 5px -1px, rgb(0 0 0 / 30%) 0px 1px 3px -1px;
+  margin-bottom: 22px;
+  padding: 5px 15px;
+}
+
+.text-home h2 {
+  font-size: 58px;
+  padding-top: 25px;
+}
+
+.command-sign #command-sign-icon {
+  width: 40%;
+  margin-left: 73px;
+}
+
+.command-sign {
+  display: flex;
+  padding: 0;
+}
+
+.day-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 45px 33px;
+}
+
+.day-options #room-info {
+  display: flex;
+  justify-content: flex-start;
+}
+
+div#label {
+  visibility: visible;
+    margin-top: 45px;
+}
+
+#input-form #rooms-name-container #user-name {
+  margin-top: 37px;
+  width: 180px;
+  margin-right: -2px;
+}
+
+#input-form #rooms-name-container #rooms-name {
+  width: 180px;
+  margin-right: -2px;
+}
+
+form button, #submit-button, #create-button {
+  height: 45px;
+  margin-right: -8px;
+}
+
+#input-form {
+  display: grid;
+  grid-template-columns: 500px;
+  text-align: center;
+  margin-left: 114px;
+}
+
+form #date {
+  height: 35px;
+  width: 255px;
+  margin: 40px 0 20px 119px;
+  border-radius: 30px;
+  background-color: rgba(43, 98, 224, 1);
+  border: 1px solid rgba(43, 98, 224, 1);
+  color: white;
+  box-shadow: 0 5px 10px grey;
+}
+}
+
+@media screen and (min-width: 1024px) {
+  .command-sign #command-sign-icon {
+    width: 35%;
+  }
+
+  .command-sign #command-sign-text {
+    font-size: 28px;
+    padding-top: 0px;
+  }
+  
+  #input-form {
+    display: grid;
+    grid-template-columns: 400px 400px 400px;
+    text-align: center;
+    margin-left: 50px;
+}
+
+form #date {
+  height: 35px;
+  width: 255px;
+  margin: 38px 0 20px 78px;
+  border-radius: 30px;
+  background-color: rgba(43, 98, 224, 1);
+  border: 1px solid rgba(43, 98, 224, 1);
+  color: white;
+  box-shadow: 0 5px 10px grey;
+}
+}
+
 @media screen and (max-width: 546px) {
   label #btn {
       display: block;
@@ -125,14 +471,44 @@
   }
 }
 
+@media screen and (min-width: 1024px) {
+  .home {
+    display: flex;
+    flex-wrap: unset;
+}
+
+.features {
+  padding-left: 9rem;
+}
+}
+
 @media screen and (min-width: 1200px) {
   .movies {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
+@media screen and (min-width: 1440px) {
+  .features {
+    padding-left: 13rem;
+  }
+
+  .command-sign #command-sign-text {
+    font-size: 41px;
+    padding-top: 0px;
+  }
+}
+
 @media screen and (min-width: 1600px) {
   .movies {
     grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media  screen and (min-width: 2560px){
+  
+  .command-sign #command-sign-text {
+    font-size: 60px;
+    padding-top: 0px;
   }
 }
